@@ -52,17 +52,17 @@ body {
     position:absolute;
     inset:0px;
     margin:auto;
-    margin-top:300px;
+    margin-top:200px;
     height:min-content;
-    min-height: 130px;
+    min-height: 92px;
     width:fit-content;
-    min-width: 420px;
+    min-width: 305px;
 }
 
 .logo-text {
     position:absolute;
     inset:0px;
-    font-size: 6em;
+    font-size: 4em;
     padding-left:15px;
     padding-right:10px;
     padding-top:5px;
@@ -76,7 +76,7 @@ body {
 .below {
   position: absolute;
   inset:0px;
-  margin-top:450px;
+  margin-top:310px;
   text-align: center;
   letter-spacing: 4px;
   font-size: 1em;
