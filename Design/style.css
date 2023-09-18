@@ -1,5 +1,14 @@
 @import url('https://fonts.googleapis.com/css2?family=Montserrat&display=swap');
 
+@font-face {
+    font-family: 'Mona Sans';
+    src:
+            url('Resources/Fonts/Mona-Sans.woff2') format('woff2 supports variations'),
+            url('Resources/Fonts/Mona-Sans.woff2') format('woff2-variations');
+    font-weight: 200 900;
+    font-stretch: 75% 125%;
+}
+
 :root {
     --core-font: 'Montserrat', sans-serif;
     --background-color: #84CA4B;
@@ -43,7 +52,8 @@
 
 body {
     background-color: var(--background-color);
-    font-family: var(--core-font);
+    font-family: 'Mona Sans';
+    font-weight: 200;
     color:var(--fore-color);
     animation:background-animation 10s infinite alternate;
     padding: 20px;
@@ -61,16 +71,11 @@ body {
   margin:auto;
   margin-top:200px;
   font-size: 4em;
-  padding-left:15px;
-  padding-right:10px;
-  padding-top:5px;
-  padding-bottom:5px;
+    font-weight: lighter;
   width:fit-content;
   text-align: center;
   height:min-content;
-  border:2px solid #ffffff;
   initial-letter-align:unset;
-  letter-spacing: 13px;
 }
 
 .below {
@@ -81,10 +86,14 @@ body {
   letter-spacing: 4px;
   font-size: 1em;
   text-decoration: none;
-  padding: 10px;
+  padding: 30px;
 }
 
 .below a{
   color:white;
   text-decoration: none;
+}
+
+.item{
+    padding:8px;
 }
