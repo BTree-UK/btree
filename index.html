@@ -1,25 +1,111 @@
 <!DOCTYPE html>
-<html>
-    <head>
-        <title>System Design | BTree</title>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="stylesheet" href="Design/style.css">
-    </head>
-    <body>
-        <div>
-        <div>
-            <div class="logo-text">
-                <span style="font-size: 2em;">{</span>
-                <span style="font-size: 1.5em;">btree</span>
-                <span style="font-size: 2em;">}</span>
-            </div>
-        </div>
-        <div class="logo-border below">
-            <div class="item">System Design</div>
-            <div class="item">Research & Development</div>
-            <div class="item">System Integration</div>
-            <div class="item"><a href='mailto:info@btree.uk'>info@btree.uk</a>
-        </div>
-        </div>
-    </body>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{btree} - Technology Consultancy</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@200;400;600&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Poppins', sans-serif;
+      background-color: #f5f5fa;
+      color: #333;
+    }
+    header {
+      background-color: #6a0dad;
+      color: white;
+      padding: 3rem 1.5rem;
+      text-align: center;
+    }
+    header h1 {
+      font-size: 3rem;
+      margin-bottom: 0.5rem;
+    }
+    header p {
+      font-size: 1.25rem;
+    }
+    .section {
+      padding: 4rem 2rem;
+      max-width: 1100px;
+      margin: auto;
+    }
+    .section h2 {
+      font-size: 2rem;
+      margin-bottom: 1rem;
+      color: #6a0dad;
+    }
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 2rem;
+      margin-top: 2rem;
+    }
+    .card {
+      background: white;
+      border-radius: 8px;
+      padding: 2rem;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    }
+    .contact-form input, .contact-form textarea {
+      width: 100%;
+      padding: 1rem;
+      margin-bottom: 1rem;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+    .contact-form button {
+      background-color: #6a0dad;
+      color: white;
+      padding: 1rem 2rem;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    footer {
+      text-align: center;
+      padding: 2rem;
+      background-color: #eee;
+      font-size: 0.9rem;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1 style="font-weight: 200; letter-spacing: 0.05em;">{btree}</h1>
+    <p>Technology Consultancy | Empowering Your Digital Vision</p>
+  </header>
+
+  <section class="section">
+    <h2>About Us</h2>
+    <p>At {btree}, we blend deep technical expertise with business insight to build scalable, smart, and sustainable digital products. From architecture to delivery, we help organizations grow with confidence.</p>
+  </section><section class="section">
+    <h2>Services</h2>
+    <div class="services-grid">
+      <div class="card"><h3>Custom Software Development</h3><p>Design and build full-stack applications using modern frameworks and cloud-native approaches.</p></div>
+      <div class="card"><h3>Microsoft Cloud & On-Prem Solutions</h3><p>Office 365, Azure, Exchange Server, Active Directory, and infrastructure services.</p></div>
+      <div class="card"><h3>Enterprise Architecture</h3><p>Scalable system architecture, security, integration patterns, and modernization strategies.</p></div>
+      <div class="card"><h3>QA & Test Automation</h3><p>CI/CD pipelines, regression automation, load testing, and performance benchmarks.</p></div>
+      <div class="card"><h3>DevOps & Infrastructure as Code</h3><p>Cloud provisioning, pipeline automation, and secure environment management.</p></div>
+      <div class="card"><h3>AI & Data Engineering</h3><p>Analytics, ETL pipelines, Azure Data Factory, and ML integration for business insights.</p></div>
+    </div>
+  </section>
+
+  <section class="section">
+    <h2>Contact Us</h2>
+    <form class="contact-form">
+      <input type="text" placeholder="Name" required>
+      <input type="email" placeholder="Email" required>
+      <textarea rows="5" placeholder="Message" required></textarea>
+      <button type="submit">Send Message</button>
+    </form>
+    <p style="margin-top: 1rem; font-size: 1rem;">Or email us at: <a href="mailto:info@btree.uk">info@btree.uk</a></p>
+  </section>
+
+  <footer>
+    &copy; 2025 {btree}. All rights reserved. | <a href="#" style="color:#6a0dad">Privacy</a>
+  </footer>
+
+</body>
 </html>
