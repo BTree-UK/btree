@@ -1,105 +1,705 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en-GB">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>{btree} - Technology Consultancy</title>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@200;400;600&display=swap" rel="stylesheet">
-  <style>
-    body {
-      margin: 0;
-      font-family: 'Poppins', sans-serif;
-      background-color: #f5f5fa;
-      color: #333;
-    }
-    header {
-      background-color: #6a0dad;
-      color: white;
-      padding: 3rem 1.5rem;
-      text-align: center;
-    }
-    header h1 {
-      font-size: 3rem;
-      margin-bottom: 0.5rem;
-    }
-    header p {
-      font-size: 1.25rem;
-    }
-    .section {
-      padding: 0rem 2rem;
-      max-width: 1100px;
-      margin: auto;
-    }
-    .section h2 {
-      font-size: 2rem;
-      margin-bottom: 1rem;
-      color: #6a0dad;
-    }
-    .services-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      gap: 2rem;
-      margin-top: 2rem;
-    }
-    .card {
-      background: white;
-      border-radius: 8px;
-      padding: 2rem;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-    }
-    .contact-form input, .contact-form textarea {
-      width: 100%;
-      padding: 1rem;
-      margin-bottom: 1rem;
-      border: 1px solid #ccc;
-      border-radius: 4px;
-    }
-    .contact-form button {
-      background-color: #6a0dad;
-      color: white;
-      padding: 1rem 2rem;
-      border: none;
-      border-radius: 4px;
-      cursor: pointer;
-    }
-    footer {
-      text-align: center;
-      padding: 2rem;
-      background-color: #eee;
-      font-size: 0.9rem;
-    }
-  </style>
+  <title>ShiftFlow | Rotas, time and attendance and HR for hospitality</title>
+  <meta name="description" content="ShiftFlow brings rota planning, kiosk clock-in, timesheets, HR and UK compliance together for hospitality teams. Built by btree." />
+  <meta name="theme-color" content="#070f2b" />
+  <meta property="og:title" content="ShiftFlow by btree" />
+  <meta property="og:description" content="Rotas, time and attendance and HR for UK hospitality, in one flow." />
+  <meta property="og:type" content="website" />
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="assets/css/site.css" />
+  <style>svg.i { fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }</style>
 </head>
 <body>
 
-  <header>
-    <h1 style="font-weight: 200; letter-spacing: 0.05em;">{btree}</h1>
-    <p>Technology Consultancy | Empowering Your Digital Vision</p>
-  </header>
+<!-- Icon sprite (Lucide-style outlines) -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-calendar" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></symbol>
+  <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></symbol>
+  <symbol id="i-users" viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></symbol>
+  <symbol id="i-shield" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></symbol>
+  <symbol id="i-file" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M16 13H8M16 17H8M10 9H8"/></symbol>
+  <symbol id="i-chart" viewBox="0 0 24 24"><path d="M3 3v18h18"/><path d="M18 17V9M13 17V5M8 17v-3"/></symbol>
+  <symbol id="i-lock" viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></symbol>
+  <symbol id="i-key" viewBox="0 0 24 24"><circle cx="7.5" cy="15.5" r="5.5"/><path d="m21 2-9.6 9.6M15.5 7.5l3 3L22 7l-3-3"/></symbol>
+  <symbol id="i-layers" viewBox="0 0 24 24"><path d="m12 2 10 5-10 5L2 7z"/><path d="m2 17 10 5 10-5M2 12l10 5 10-5"/></symbol>
+  <symbol id="i-moon" viewBox="0 0 24 24"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9z"/></symbol>
+  <symbol id="i-landmark" viewBox="0 0 24 24"><path d="M3 22h18M6 18v-7M10 18v-7M14 18v-7M18 18v-7M12 2l8 5H4z"/></symbol>
+  <symbol id="i-send" viewBox="0 0 24 24"><path d="m22 2-7 20-4-9-9-4z"/><path d="M22 2 11 13"/></symbol>
+  <symbol id="i-wifi-off" viewBox="0 0 24 24"><path d="M2 2l20 20M8.5 16.5a5 5 0 0 1 7 0M2 8.82a15 15 0 0 1 4.17-2.65M10.66 5c4.01-.36 8.14.9 11.34 3.76M16.85 11.25a10 10 0 0 1 2.22 1.68M5 13a10 10 0 0 1 5.24-2.76M12 20h.01"/></symbol>
+  <symbol id="i-swap" viewBox="0 0 24 24"><path d="m16 3 4 4-4 4M20 7H4M8 21l-4-4 4-4M4 17h16"/></symbol>
+  <symbol id="i-plane" viewBox="0 0 24 24"><path d="M17.8 19.2 16 11l3.5-3.5C21 6 21.5 4 21 3c-1-.5-3 0-4.5 1.5L13 8 4.8 6.2c-.5-.1-.9.1-1.1.5l-.3.5c-.2.5-.1 1 .3 1.3L9 12l-2 3H4l-1 1 3 2 2 3 1-1v-3l3-2 3.5 5.3c.3.4.8.5 1.3.3l.5-.2c.4-.3.6-.7.5-1.2z"/></symbol>
+  <symbol id="i-pen" viewBox="0 0 24 24"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"/></symbol>
+  <symbol id="i-bell" viewBox="0 0 24 24"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></symbol>
+  <symbol id="i-gear" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></symbol>
+  <symbol id="i-chev" viewBox="0 0 24 24"><path d="m9 18 6-6-6-6"/></symbol>
+  <symbol id="i-chev-l" viewBox="0 0 24 24"><path d="m15 18-6-6 6-6"/></symbol>
+  <symbol id="i-alert" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 8v4M12 16h.01"/></symbol>
+  <symbol id="i-plus" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 8v8M8 12h8"/></symbol>
+  <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></symbol>
+  <symbol id="i-mail" viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-10 6L2 7"/></symbol>
+  <symbol id="i-menu" viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16"/></symbol>
+  <symbol id="i-megaphone" viewBox="0 0 24 24"><path d="m3 11 18-5v12L3 14v-3z"/><path d="M11.6 16.8a3 3 0 1 1-5.8-1.6"/></symbol>
+  <symbol id="i-history" viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5M12 7v5l4 2"/></symbol>
+  <symbol id="i-plug" viewBox="0 0 24 24"><path d="M12 22v-5M9 8V2M15 8V2M18 8v5a4 4 0 0 1-4 4h-4a4 4 0 0 1-4-4V8z"/></symbol>
+  <symbol id="i-monitor" viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></symbol>
+  <symbol id="i-tablet" viewBox="0 0 24 24"><rect x="4" y="2" width="16" height="20" rx="2"/><path d="M12 18h.01"/></symbol>
+  <symbol id="i-phone" viewBox="0 0 24 24"><rect x="5" y="2" width="14" height="20" rx="2"/><path d="M12 18h.01"/></symbol>
+  <symbol id="i-database" viewBox="0 0 24 24"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5M3 12c0 1.66 4 3 9 3s9-1.34 9-3"/></symbol>
+</svg>
 
-  <section class="section">
-    <h2>About Us</h2>
-    <p>At {btree}, we blend deep technical expertise with business insight to build scalable, smart, and sustainable digital products. From architecture to delivery, we help organizations grow with confidence.</p>
-  </section><section class="section">
-    <h2>Services</h2>
-    <div class="services-grid">
-      <div class="card"><h3>Custom Software Development</h3><p>Design and build full-stack applications using modern frameworks and cloud-native approaches.</p></div>
-      <div class="card"><h3>Microsoft Cloud & On-Prem Solutions</h3><p>Office 365, Azure, Exchange Server, Active Directory, and infrastructure services.</p></div>
-      <div class="card"><h3>Enterprise Architecture</h3><p>Scalable system architecture, security, integration patterns, and modernization strategies.</p></div>
-      <div class="card"><h3>QA & Test Automation</h3><p>CI/CD pipelines, regression automation, load testing, and performance benchmarks.</p></div>
-      <div class="card"><h3>DevOps & Infrastructure as Code</h3><p>Cloud provisioning, pipeline automation, and secure environment management.</p></div>
-      <div class="card"><h3>AI & Data Engineering</h3><p>Analytics, ETL pipelines, Azure Data Factory, and ML integration for business insights.</p></div>
+<!-- Navigation -->
+<header class="nav" id="nav">
+  <div class="wrap nav__inner">
+    <a class="brand" href="#top" aria-label="ShiftFlow home">
+      <img src="assets/favicon.svg" alt="" width="34" height="34" />
+      <span>ShiftFlow<small>by {btree}</small></span>
+    </a>
+    <ul class="nav__links" id="navLinks">
+      <li><a href="#apps">Product</a></li>
+      <li><a href="#features">Features</a></li>
+      <li><a href="#kiosk">Kiosk</a></li>
+      <li><a href="#mobile">Mobile app</a></li>
+      <li><a href="#views">Views</a></li>
+      <li><a href="#all-features">All features</a></li>
+      <li><a href="#security">Security</a></li>
+    </ul>
+    <a class="btn btn--primary nav__cta" href="#contact">Book a demo</a>
+    <button class="nav__toggle" id="navToggle" aria-label="Open menu" aria-expanded="false" aria-controls="navLinks">
+      <svg class="i"><use href="#i-menu"/></svg>
+    </button>
+  </div>
+</header>
+
+<main id="top">
+
+  <!-- Hero -->
+  <section class="hero">
+    <div class="wrap">
+      <div class="hero__copy">
+        <span class="pill"><b>NEW</b> The ShiftFlow employee app for iOS and Android</span>
+        <h1>Rotas, clock-ins and HR for hospitality, <span class="grad">in one flow.</span></h1>
+        <p class="hero__sub">ShiftFlow is the workforce platform for restaurants, bars, cafes and bakeries. Plan the week, clock staff in at the door, approve timesheets and stay on the right side of UK employment law, all from one place.</p>
+        <div class="hero__actions">
+          <a class="btn btn--primary" href="#contact">Book a demo <svg class="i"><use href="#i-arrow"/></svg></a>
+          <a class="btn btn--ghost" href="#views">See every view</a>
+        </div>
+      </div>
+
+      <div class="hero__stage hero__stage--frags">
+        <div class="frag frag-rota hero__rota" aria-hidden="true">
+            <div class="frag__head"><b>Week of 19 Oct</b><span class="muted">Southbank</span><span class="tag tag--green">Published</span></div>
+            <div class="fr-row fr-row--days"><span></span><span></span><div class="fr-cells"><span>Mon</span><span>Tue</span><span>Wed</span><span>Thu</span><span>Fri</span><span>Sat</span><span>Sun</span></div></div>
+            <div class="fr-row"><span class="av" style="--c:#f59e0b">CF</span><span class="fr-name">Callum Fraser</span><div class="fr-cells"><span></span><span class="pill" style="--c:#f59e0b">17:00</span><span></span><span class="pill" style="--c:#f59e0b">17:00</span><span class="pill" style="--c:#f59e0b">17:00</span><span class="pill" style="--c:#f59e0b">17:00</span><span></span></div></div><div class="fr-row"><span class="av" style="--c:#f59e0b">GW</span><span class="fr-name">Grace Whitmore</span><div class="fr-cells"><span class="pill" style="--c:#f59e0b">18:00</span><span></span><span class="pill" style="--c:#f59e0b">18:00</span><span></span><span></span><span></span><span class="pill" style="--c:#f59e0b">18:00</span></div></div><div class="fr-row"><span class="av" style="--c:#ef4444">DO</span><span class="fr-name">Daniel Okafor</span><div class="fr-cells"><span></span><span class="pill" style="--c:#ef4444">10:00</span><span class="pill" style="--c:#ef4444">10:00</span><span class="pill" style="--c:#ef4444">10:00</span><span class="pill" style="--c:#ef4444">10:00</span><span class="pill" style="--c:#ef4444">10:00</span><span></span></div></div><div class="fr-row"><span class="av" style="--c:#ef4444">PS</span><span class="fr-name">Priya Sharma</span><div class="fr-cells"><span class="pill" style="--c:#ef4444">12:00</span><span></span><span class="pill" style="--c:#ef4444">12:00</span><span class="pill" style="--c:#ef4444">12:00</span><span></span><span class="pill" style="--c:#ef4444">12:00</span><span></span></div></div><div class="fr-row"><span class="av" style="--c:#10b981">MK</span><span class="fr-name">Marek Kowalczyk</span><div class="fr-cells"><span class="pill" style="--c:#10b981">17:00</span><span class="pill" style="--c:#10b981">17:00</span><span></span><span></span><span class="pill" style="--c:#10b981">17:00</span><span class="pill" style="--c:#10b981">17:00</span><span></span></div></div><div class="fr-row"><span class="av" style="--c:#8b5cf6">AH</span><span class="fr-name">Amelia Hughes</span><div class="fr-cells"><span class="pill" style="--c:#8b5cf6">09:00</span><span class="pill" style="--c:#8b5cf6">09:00</span><span class="pill" style="--c:#8b5cf6">09:00</span><span class="pill" style="--c:#8b5cf6">09:00</span><span class="pill" style="--c:#8b5cf6">09:00</span><span></span><span></span></div></div><div class="fr-row"><span class="av" style="--c:#0ea5e9">TN</span><span class="fr-name">Tomasz Nowak</span><div class="fr-cells"><span class="pill" style="--c:#0ea5e9">11:00</span><span class="pill" style="--c:#0ea5e9">11:00</span><span class="pill" style="--c:#0ea5e9">11:00</span><span class="pill" style="--c:#0ea5e9">11:00</span><span></span><span class="pill" style="--c:#0ea5e9">11:00</span><span></span></div></div>
+            <div class="frag__foot"><span><b>372</b> hours</span><span><b>£5,318</b> labour</span><span class="tag tag--green">0 compliance issues</span></div>
+          </div>
+        <div class="frag toast hero__toast" aria-hidden="true"><span class="av" style="--c:#f59e0b">CF</span><div><b>Callum clocked in</b><span>16:58 at Southbank, on time</span></div><span class="dot"></span></div>
+        <div class="frag hero__check" aria-hidden="true">
+          <div class="hc-head"><svg class="i"><use href="#i-shield"/></svg><b>Ready to publish</b></div>
+          <div class="hc-row"><span class="ok"></span>11 hours rest</div>
+          <div class="hc-row"><span class="ok"></span>48 hour week</div>
+          <div class="hc-row"><span class="ok"></span>Food hygiene certificates</div>
+        </div>
+        <div class="phone hero__phone" aria-hidden="true"><div class="phone__screen" data-clone="app-home"></div></div>
+      </div>
     </div>
   </section>
 
-  <section class="section">
-    <h2>Contact Us</h2>
-    <p style="margin-top: 1rem; font-size: 1rem;">email us at: <a href="mailto:info@btree.uk">info@btree.uk</a></p>
+  <!-- Trust strip -->
+  <section class="strip" aria-label="Built for UK hospitality">
+    <div class="wrap">
+      <ul>
+        <li><svg class="i"><use href="#i-landmark"/></svg><div><b>UK compliance built in</b>Working Time Regulations, Right to Work and statutory leave.</div></li>
+        <li><svg class="i"><use href="#i-moon"/></svg><div><b>Trades past midnight</b>Your trading day ends when you close, not at 00:00.</div></li>
+        <li><svg class="i"><use href="#i-layers"/></svg><div><b>One venue or fifty</b>Multi-location staff, rotas and settings that inherit.</div></li>
+        <li><svg class="i"><use href="#i-lock"/></svg><div><b>Secure by design</b>Encrypted documents, SSO, MFA and a full audit trail.</div></li>
+      </ul>
+    </div>
   </section>
 
-  <footer>
-    &copy; 2025 {btree}. All rights reserved. | <a href="#" style="color:#6a0dad">Privacy</a>
-  </footer>
+  <!-- Three apps -->
+  <section class="section" id="apps">
+    <div class="wrap">
+      <div class="section-head center reveal">
+        <span class="eyebrow">One system, three apps</span>
+        <h2>Everyone gets the screen that fits their job</h2>
+        <p class="lead">Managers plan from the office, staff clock in at the venue tablet and check their week on their own phone. It is all the same data, updated live.</p>
+      </div>
+      <div class="trio">
+        <article class="app-card reveal">
+          <div class="app-card__media app-card__media--frag"><div class="frag frag-rota frag--mini" aria-hidden="true">
+            <div class="frag__head"><b>Week of 19 Oct</b><span class="muted">Southbank</span><span class="tag tag--green">Published</span></div>
+            <div class="fr-row fr-row--days"><span></span><span></span><div class="fr-cells"><span>Mon</span><span>Tue</span><span>Wed</span><span>Thu</span><span>Fri</span><span>Sat</span><span>Sun</span></div></div>
+            <div class="fr-row"><span class="av" style="--c:#f59e0b">CF</span><span class="fr-name">Callum Fraser</span><div class="fr-cells"><span></span><span class="pill" style="--c:#f59e0b">17:00</span><span></span><span class="pill" style="--c:#f59e0b">17:00</span><span class="pill" style="--c:#f59e0b">17:00</span><span class="pill" style="--c:#f59e0b">17:00</span><span></span></div></div><div class="fr-row"><span class="av" style="--c:#f59e0b">GW</span><span class="fr-name">Grace Whitmore</span><div class="fr-cells"><span class="pill" style="--c:#f59e0b">18:00</span><span></span><span class="pill" style="--c:#f59e0b">18:00</span><span></span><span></span><span></span><span class="pill" style="--c:#f59e0b">18:00</span></div></div><div class="fr-row"><span class="av" style="--c:#ef4444">DO</span><span class="fr-name">Daniel Okafor</span><div class="fr-cells"><span></span><span class="pill" style="--c:#ef4444">10:00</span><span class="pill" style="--c:#ef4444">10:00</span><span class="pill" style="--c:#ef4444">10:00</span><span class="pill" style="--c:#ef4444">10:00</span><span class="pill" style="--c:#ef4444">10:00</span><span></span></div></div><div class="fr-row"><span class="av" style="--c:#ef4444">PS</span><span class="fr-name">Priya Sharma</span><div class="fr-cells"><span class="pill" style="--c:#ef4444">12:00</span><span></span><span class="pill" style="--c:#ef4444">12:00</span><span class="pill" style="--c:#ef4444">12:00</span><span></span><span class="pill" style="--c:#ef4444">12:00</span><span></span></div></div><div class="fr-row"><span class="av" style="--c:#10b981">MK</span><span class="fr-name">Marek Kowalczyk</span><div class="fr-cells"><span class="pill" style="--c:#10b981">17:00</span><span class="pill" style="--c:#10b981">17:00</span><span></span><span></span><span class="pill" style="--c:#10b981">17:00</span><span class="pill" style="--c:#10b981">17:00</span><span></span></div></div><div class="fr-row"><span class="av" style="--c:#8b5cf6">AH</span><span class="fr-name">Amelia Hughes</span><div class="fr-cells"><span class="pill" style="--c:#8b5cf6">09:00</span><span class="pill" style="--c:#8b5cf6">09:00</span><span class="pill" style="--c:#8b5cf6">09:00</span><span class="pill" style="--c:#8b5cf6">09:00</span><span class="pill" style="--c:#8b5cf6">09:00</span><span></span><span></span></div></div><div class="fr-row"><span class="av" style="--c:#0ea5e9">TN</span><span class="fr-name">Tomasz Nowak</span><div class="fr-cells"><span class="pill" style="--c:#0ea5e9">11:00</span><span class="pill" style="--c:#0ea5e9">11:00</span><span class="pill" style="--c:#0ea5e9">11:00</span><span class="pill" style="--c:#0ea5e9">11:00</span><span></span><span class="pill" style="--c:#0ea5e9">11:00</span><span></span></div></div>
+            <div class="frag__foot"><span><b>372</b> hours</span><span><b>£5,318</b> labour</span><span class="tag tag--green">0 compliance issues</span></div>
+          </div></div>
+          <div class="app-card__body">
+            <span class="app-card__kicker"><svg class="i" width="14" height="14" style="vertical-align:-2px"><use href="#i-monitor"/></svg> Manager web</span>
+            <h3>Run every site from the browser</h3>
+            <p>Rotas, timesheets, people, documents, reports and settings for owners, managers and HR.</p>
+            <ul>
+              <li>Drag-and-drop rota builder with live costs</li>
+              <li>Approvals inbox for leave, swaps and punches</li>
+              <li>Nine reports with print and CSV export</li>
+            </ul>
+          </div>
+        </article>
+        <article class="app-card reveal">
+          <div class="app-card__media app-card__media--frag app-card__media--dark"><div class="frag frag-kiosk frag--mini" aria-hidden="true">
+            <div class="fk-head"><div><small>Location</small><b>Southbank</b></div><div class="fk-clock">16:58</div></div>
+            <div class="fk-search">Find your name or number</div>
+            <div class="fk-grid"><div class="kt"><span class="av" style="--c:#0ea5e9">AR</span><span class="kt__n">Aisha</span><span class="kt__s kt__s--green">On shift</span></div><div class="kt"><span class="av" style="--c:#8b5cf6">AH</span><span class="kt__n">Amelia</span><span class="kt__s kt__s--green">On shift</span></div><div class="kt"><span class="av" style="--c:#f59e0b">CF</span><span class="kt__n">Callum</span><span class="kt__s kt__s--blue">Scheduled</span></div><div class="kt"><span class="av" style="--c:#10b981">CB</span><span class="kt__n">Chloe</span><span class="kt__s kt__s--grey">Off</span></div><div class="kt"><span class="av" style="--c:#ef4444">DO</span><span class="kt__n">Daniel</span><span class="kt__s kt__s--amber">On break</span></div><div class="kt"><span class="av" style="--c:#0ea5e9">EM</span><span class="kt__n">Eilidh</span><span class="kt__s kt__s--red">Late</span></div><div class="kt"><span class="av" style="--c:#f59e0b">GW</span><span class="kt__n">Grace</span><span class="kt__s kt__s--grey">Off</span></div><div class="kt"><span class="av" style="--c:#0ea5e9">HP</span><span class="kt__n">Hannah</span><span class="kt__s kt__s--blue">Scheduled</span></div></div>
+          </div></div>
+          <div class="app-card__body">
+            <span class="app-card__kicker"><svg class="i" width="14" height="14" style="vertical-align:-2px"><use href="#i-tablet"/></svg> Kiosk</span>
+            <h3>Clock in at the door with a PIN</h3>
+            <p>An installable tablet app for iPad and Android that turns any tablet into a time clock.</p>
+            <ul>
+              <li>Pair a tablet in seconds with a one-time code</li>
+              <li>Cards or list, comfortable or compact</li>
+              <li>Keeps working when the Wi-Fi drops</li>
+              <li>Breaks, late arrivals and no-shows flagged</li>
+            </ul>
+          </div>
+        </article>
+        <article class="app-card reveal">
+          <div class="app-card__media app-card__media--dark"><div class="phone"><div class="phone__screen" data-clone="app-home"></div></div></div>
+          <div class="app-card__body">
+            <span class="app-card__kicker"><svg class="i" width="14" height="14" style="vertical-align:-2px"><use href="#i-phone"/></svg> Employee app</span>
+            <h3>Their week, in their pocket</h3>
+            <p>Staff see shifts, book holiday, swap shifts and sign documents from their own phone.</p>
+            <ul>
+              <li>Shifts, hours worked and holiday at a glance</li>
+              <li>Pick up open shifts and offer swaps</li>
+              <li>Sign contracts and confirm announcements</li>
+            </ul>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
 
+  <!-- Features -->
+  <section class="section section--soft" id="features">
+    <div class="wrap">
+      <div class="section-head center reveal">
+        <span class="eyebrow">Features</span>
+        <h2>From the rota to the pay run</h2>
+        <p class="lead">Plan it, work it, approve it, pay it. Every step feeds the next, so the hours on the rota, the punches at the kiosk and the figures in payroll always agree.</p>
+      </div>
+
+      <div class="feature reveal">
+        <div class="feature__copy">
+          <span class="eyebrow">Scheduling</span>
+          <h3>Build next week's rota in minutes</h3>
+          <p>Drag shifts into place, drop in templates or copy last week. Hours, cost, wage percentage and labour per hour update as you go, with the weather on every day header.</p>
+          <ul class="checks">
+            <li><span class="ico"><svg class="i"><use href="#i-calendar"/></svg></span><div><b>Four views, two densities</b><span>Week grid, hourly day timeline, month overview and coverage heatmap. Switch to Compact to fit the whole team on one screen.</span></div></li>
+            <li><span class="ico"><svg class="i"><use href="#i-send"/></svg></span><div><b>Approve, publish and notify</b><span>Draft, approval and publish, with only changed shifts announced after an amend.</span></div></li>
+            <li><span class="ico"><svg class="i"><use href="#i-swap"/></svg></span><div><b>Open shifts and swaps</b><span>Broadcast unfilled shifts across sites. Staff claim them, you confirm.</span></div></li>
+          </ul>
+        </div>
+        <div class="feature__media">
+          <div class="frag frag-rota " aria-hidden="true">
+            <div class="frag__head"><b>Week of 19 Oct</b><span class="muted">Southbank</span><span class="tag tag--green">Published</span></div>
+            <div class="fr-row fr-row--days"><span></span><span></span><div class="fr-cells"><span>Mon</span><span>Tue</span><span>Wed</span><span>Thu</span><span>Fri</span><span>Sat</span><span>Sun</span></div></div>
+            <div class="fr-row"><span class="av" style="--c:#f59e0b">CF</span><span class="fr-name">Callum Fraser</span><div class="fr-cells"><span></span><span class="pill" style="--c:#f59e0b">17:00</span><span></span><span class="pill" style="--c:#f59e0b">17:00</span><span class="pill" style="--c:#f59e0b">17:00</span><span class="pill" style="--c:#f59e0b">17:00</span><span></span></div></div><div class="fr-row"><span class="av" style="--c:#f59e0b">GW</span><span class="fr-name">Grace Whitmore</span><div class="fr-cells"><span class="pill" style="--c:#f59e0b">18:00</span><span></span><span class="pill" style="--c:#f59e0b">18:00</span><span></span><span></span><span></span><span class="pill" style="--c:#f59e0b">18:00</span></div></div><div class="fr-row"><span class="av" style="--c:#ef4444">DO</span><span class="fr-name">Daniel Okafor</span><div class="fr-cells"><span></span><span class="pill" style="--c:#ef4444">10:00</span><span class="pill" style="--c:#ef4444">10:00</span><span class="pill" style="--c:#ef4444">10:00</span><span class="pill" style="--c:#ef4444">10:00</span><span class="pill" style="--c:#ef4444">10:00</span><span></span></div></div><div class="fr-row"><span class="av" style="--c:#ef4444">PS</span><span class="fr-name">Priya Sharma</span><div class="fr-cells"><span class="pill" style="--c:#ef4444">12:00</span><span></span><span class="pill" style="--c:#ef4444">12:00</span><span class="pill" style="--c:#ef4444">12:00</span><span></span><span class="pill" style="--c:#ef4444">12:00</span><span></span></div></div><div class="fr-row"><span class="av" style="--c:#10b981">MK</span><span class="fr-name">Marek Kowalczyk</span><div class="fr-cells"><span class="pill" style="--c:#10b981">17:00</span><span class="pill" style="--c:#10b981">17:00</span><span></span><span></span><span class="pill" style="--c:#10b981">17:00</span><span class="pill" style="--c:#10b981">17:00</span><span></span></div></div><div class="fr-row"><span class="av" style="--c:#8b5cf6">AH</span><span class="fr-name">Amelia Hughes</span><div class="fr-cells"><span class="pill" style="--c:#8b5cf6">09:00</span><span class="pill" style="--c:#8b5cf6">09:00</span><span class="pill" style="--c:#8b5cf6">09:00</span><span class="pill" style="--c:#8b5cf6">09:00</span><span class="pill" style="--c:#8b5cf6">09:00</span><span></span><span></span></div></div><div class="fr-row"><span class="av" style="--c:#0ea5e9">TN</span><span class="fr-name">Tomasz Nowak</span><div class="fr-cells"><span class="pill" style="--c:#0ea5e9">11:00</span><span class="pill" style="--c:#0ea5e9">11:00</span><span class="pill" style="--c:#0ea5e9">11:00</span><span class="pill" style="--c:#0ea5e9">11:00</span><span></span><span class="pill" style="--c:#0ea5e9">11:00</span><span></span></div></div>
+            <div class="frag__foot"><span><b>372</b> hours</span><span><b>£5,318</b> labour</span><span class="tag tag--green">0 compliance issues</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="feature feature--flip reveal">
+        <div class="feature__copy">
+          <span class="eyebrow">Time and attendance</span>
+          <h3>Timesheets that are already checked</h3>
+          <p>Planned and actual hours side by side for the whole team. Late, early leave and no-show are flagged for you, and edits keep a reason and an audit record.</p>
+          <ul class="checks">
+            <li><span class="ico"><svg class="i"><use href="#i-clock"/></svg></span><div><b>Planned against actual</b><span>Scheduled, punched, edited and worked hours with variance per shift.</span></div></li>
+            <li><span class="ico"><svg class="i"><use href="#i-shield"/></svg></span><div><b>Approve in bulk</b><span>Approve a whole week in one click once the exceptions are cleared.</span></div></li>
+            <li><span class="ico"><svg class="i"><use href="#i-chart"/></svg></span><div><b>Pay run export</b><span>Approved hours flow straight into a payroll-ready export.</span></div></li>
+          </ul>
+        </div>
+        <div class="feature__media">
+          <div class="frag frag-ts" aria-hidden="true">
+            <div class="frag__head"><b>Timesheets</b><span class="muted">Fri 23 Oct</span><span class="btn-mini">Approve all</span></div>
+            <div class="ft-row ft-row--head"><span></span><span>Person</span><span>Scheduled</span><span>Worked</span><span>Flag</span></div>
+            <div class="ft-row"><span class="av" style="--c:#0ea5e9">JA</span><span class="fr-name">Joseph Adeyemi</span><span class="muted">10:00 to 16:00</span><b>6h 00m</b><span class="tag tag--green">On time</span></div><div class="ft-row"><span class="av" style="--c:#f59e0b">CF</span><span class="fr-name">Callum Fraser</span><span class="muted">17:00 to 23:30</span><b>6h 18m</b><span class="tag tag--amber">Late</span></div><div class="ft-row"><span class="av" style="--c:#ef4444">PS</span><span class="fr-name">Priya Sharma</span><span class="muted">12:00 to 20:00</span><b>7h 05m</b><span class="tag tag--orange">Early leave</span></div><div class="ft-row"><span class="av" style="--c:#10b981">MK</span><span class="fr-name">Marek Kowalczyk</span><span class="muted">17:00 to 23:00</span><b>6h 35m</b><span class="tag tag--violet">Overtime</span></div><div class="ft-row"><span class="av" style="--c:#0ea5e9">HP</span><span class="fr-name">Hannah Price</span><span class="muted">17:00 to 22:00</span><b>0h 00m</b><span class="tag tag--red">No show</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="feature reveal">
+        <div class="feature__copy">
+          <span class="eyebrow">People and HR</span>
+          <h3>Hire, onboard and keep records in one place</h3>
+          <p>Send a new starter a link. They fill in their details, upload Right to Work evidence and sign their contract online. Nobody is marked complete until both are done.</p>
+          <ul class="checks">
+            <li><span class="ico"><svg class="i"><use href="#i-users"/></svg></span><div><b>Six ways to see your team</b><span>List, grid, people and profile side by side, an org chart of reporting lines and a map of every site.</span></div></li>
+            <li><span class="ico"><svg class="i"><use href="#i-file"/></svg></span><div><b>Complete employee profiles</b><span>Positions with their own pay rates, bank, immigration, notes and history.</span></div></li>
+            <li><span class="ico"><svg class="i"><use href="#i-pen"/></svg></span><div><b>E-signatures included</b><span>Contracts and handbooks signed in the browser, with a certificate page.</span></div></li>
+            <li><span class="ico"><svg class="i"><use href="#i-plane"/></svg></span><div><b>Holiday and absence</b><span>Entitlements, leave years, bank holidays and sickness, shown on the rota.</span></div></li>
+          </ul>
+        </div>
+        <div class="feature__media">
+          <div class="frag frag-org" aria-hidden="true">
+            <div class="fo-top"><div class="on on--top"><span class="av" style="--c:#8b5cf6">AH</span><div><b>Amelia Hughes</b><span>General manager</span></div></div></div>
+            <div class="fo-cols"><div class="fo-col"><div class="on"><span class="av" style="--c:#ef4444">DO</span><div><b>Daniel Okafor</b><span>Head chef</span></div></div><div class="fo-kids"><div class="on"><span class="av" style="--c:#ef4444">PS</span><div><b>Priya Sharma</b><span>Chef</span></div></div><div class="on"><span class="av" style="--c:#10b981">MK</span><div><b>Marek K.</b><span>Kitchen porter</span></div></div></div></div><div class="fo-col"><div class="on"><span class="av" style="--c:#8b5cf6">JW</span><div><b>James Whitfield</b><span>Manager, Leeds</span></div></div><div class="fo-kids"><div class="on"><span class="av" style="--c:#ef4444">BC</span><div><b>Ben Carter</b><span>Chef</span></div></div><div class="on"><span class="av" style="--c:#f59e0b">ZA</span><div><b>Zara Ahmed</b><span>Bartender</span></div></div></div></div><div class="fo-col"><div class="on"><span class="av" style="--c:#8b5cf6">RK</span><div><b>Ruth Kelly</b><span>Manager</span></div></div><div class="fo-kids"><div class="on"><span class="av" style="--c:#f59e0b">CF</span><div><b>Callum Fraser</b><span>Bartender</span></div></div><div class="on"><span class="av" style="--c:#0ea5e9">AR</span><div><b>Aisha Rahman</b><span>Server</span></div></div></div></div></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="feature feature--flip reveal" id="compliance">
+        <div class="feature__copy">
+          <span class="eyebrow">Compliance</span>
+          <h3>Catch the problem before the rota goes out</h3>
+          <p>Every rota is checked against the rules before it can be published. Errors block publishing, warnings are shown, and each rule can be tuned for each venue.</p>
+          <div class="chips" aria-label="Compliance rules">
+            <span>11 hour rest</span><span>48 hour week</span><span>20 minute breaks</span><span>Young workers</span>
+            <span>Night work for minors</span><span>Food hygiene certificate</span><span>Management certificate</span>
+            <span>Visa hour caps</span><span>Leave clashes</span><span>Double booking</span>
+          </div>
+        </div>
+        <div class="feature__media">
+          <div class="frag frag-rules" aria-hidden="true">
+            <div class="frag__head"><b>Compliance rules</b><span class="muted">Southbank</span><span class="tag">Inherited from business</span></div>
+            <div class="fc-row"><span class="tog"></span><span class="fr-name">Minimum rest between shifts</span><span class="muted">11 hours</span><span class="tag tag--red">Error</span></div><div class="fc-row"><span class="tog"></span><span class="fr-name">Weekly hours cap</span><span class="muted">48 hours</span><span class="tag tag--amber">Warning</span></div><div class="fc-row"><span class="tog"></span><span class="fr-name">Insufficient break</span><span class="muted">20 min after 6h</span><span class="tag tag--amber">Warning</span></div><div class="fc-row"><span class="tog"></span><span class="fr-name">Under-18 night work</span><span class="muted">after 22:00</span><span class="tag tag--red">Error</span></div><div class="fc-row"><span class="tog"></span><span class="fr-name">Food hygiene certificate</span><span class="muted">by position</span><span class="tag tag--red">Error</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Kiosk -->
+  <section class="section section--dark" id="kiosk">
+    <div class="wrap kiosk">
+      <div class="reveal">
+        <div class="frag frag-kiosk frag--large" aria-hidden="true">
+            <div class="fk-head"><div><small>Location</small><b>Southbank</b></div><div class="fk-clock">16:58</div></div>
+            <div class="fk-search">Find your name or number</div>
+            <div class="fk-grid"><div class="kt"><span class="av" style="--c:#0ea5e9">AR</span><span class="kt__n">Aisha</span><span class="kt__s kt__s--green">On shift</span></div><div class="kt"><span class="av" style="--c:#8b5cf6">AH</span><span class="kt__n">Amelia</span><span class="kt__s kt__s--green">On shift</span></div><div class="kt"><span class="av" style="--c:#f59e0b">CF</span><span class="kt__n">Callum</span><span class="kt__s kt__s--blue">Scheduled</span></div><div class="kt"><span class="av" style="--c:#10b981">CB</span><span class="kt__n">Chloe</span><span class="kt__s kt__s--grey">Off</span></div><div class="kt"><span class="av" style="--c:#ef4444">DO</span><span class="kt__n">Daniel</span><span class="kt__s kt__s--amber">On break</span></div><div class="kt"><span class="av" style="--c:#0ea5e9">EM</span><span class="kt__n">Eilidh</span><span class="kt__s kt__s--red">Late</span></div><div class="kt"><span class="av" style="--c:#f59e0b">GW</span><span class="kt__n">Grace</span><span class="kt__s kt__s--grey">Off</span></div><div class="kt"><span class="av" style="--c:#0ea5e9">HP</span><span class="kt__n">Hannah</span><span class="kt__s kt__s--blue">Scheduled</span></div></div>
+          </div>
+      </div>
+      <div class="reveal">
+        <span class="eyebrow">Kiosk</span>
+        <h2>A time clock on any tablet</h2>
+        <p class="lead">No proprietary hardware. Install the kiosk on an iPad or Android tablet, lock it to the app, and your team clocks in with their PIN.</p>
+        <ol class="steps">
+          <li><div><b>Pair the tablet</b><span>Enter a one-time pairing code and the tablet is tied to that venue.</span></div></li>
+          <li><div><b>Tap your name, enter your PIN</b><span>Clock in, start a break, clock out. Pick the position if you hold more than one.</span></div></li>
+          <li><div><b>Works offline</b><span>Punches are kept on the device and sent the moment the connection returns.</span></div></li>
+          <li><div><b>See it live</b><span>The dashboard shows who is on shift now, and the timesheet fills itself.</span></div></li>
+        </ol>
+      </div>
+    </div>
+  </section>
+
+  <!-- Mobile app -->
+  <section class="section" id="mobile">
+    <div class="wrap">
+      <div class="section-head center reveal">
+        <span class="eyebrow">Employee app</span>
+        <h2>Fewer messages to the manager's phone</h2>
+        <p class="lead">"When am I on?", "How much holiday do I have left?", "Can someone cover Saturday?" The employee app answers all of them, and you decide which parts each venue switches on.</p>
+      </div>
+
+      <div class="phones reveal">
+        <figure>
+          <div class="phone"><div class="phone__screen" data-clone="app-home">
+            <template id="app-home">
+              <div class="app" aria-hidden="true">
+                <div class="app__status"><span>9:41</span><span>&#9679;&#9679;&#9679; 5G</span></div>
+                <div class="app__body">
+                  <div class="ma-hi"><span class="av" style="--c:#8b5cf6">AH</span><div><b>Hi Amelia</b><span>Your week at a glance</span></div></div>
+                  <div class="ma-card ma-rings">
+                    <svg viewBox="0 0 148 148">
+                      <g fill="none" stroke-width="14" stroke-linecap="round" transform="rotate(-90 74 74)">
+                        <circle cx="74" cy="74" r="67" stroke="#db2777" stroke-opacity=".15"/>
+                        <circle cx="74" cy="74" r="67" stroke="#db2777" stroke-dasharray="421 421" stroke-dashoffset="217"/>
+                        <circle cx="74" cy="74" r="49" stroke="#0284c7" stroke-opacity=".15"/>
+                        <circle cx="74" cy="74" r="49" stroke="#0284c7" stroke-dasharray="308 308" stroke-dashoffset="154"/>
+                        <circle cx="74" cy="74" r="31" stroke="#16a34a" stroke-opacity=".15"/>
+                        <circle cx="74" cy="74" r="31" stroke="#16a34a" stroke-dasharray="195 195" stroke-dashoffset="139"/>
+                      </g>
+                    </svg>
+                    <div class="ma-legend">
+                      <div><i style="--c:#db2777"></i>Hours<b>13h of 27h</b></div>
+                      <div><i style="--c:#0284c7"></i>Shifts<b>2 of 4</b></div>
+                      <div><i style="--c:#16a34a"></i>Holiday<b>8 of 28</b></div>
+                    </div>
+                  </div>
+                  <div class="ma-row" style="--c:#0ea5e9"><div><small>Next shift</small><b>Today, 12:00</b></div><span class="tag tag--blue">Server</span></div>
+                  <div class="ma-row" style="--c:#f59e0b"><div><small>To do</small><b>1 document to sign</b></div><span class="tag tag--amber">New</span></div>
+                  <div class="ma-tiles">
+                    <div class="ma-tile" style="--c:#0ea5e9"><svg class="i"><use href="#i-calendar"/></svg>Shifts</div>
+                    <div class="ma-tile" style="--c:#16a34a"><svg class="i"><use href="#i-plane"/></svg>Time off</div>
+                    <div class="ma-tile" style="--c:#8b5cf6"><svg class="i"><use href="#i-swap"/></svg>Swaps</div>
+                    <div class="ma-tile" style="--c:#f59e0b"><svg class="i"><use href="#i-file"/></svg>Documents</div>
+                  </div>
+                </div>
+              </div>
+            </template>
+          </div></div>
+          <figcaption><b>Home</b>Hours, shifts and holiday as rings</figcaption>
+        </figure>
+
+        <figure>
+          <div class="phone"><div class="phone__screen">
+            <div class="app" aria-hidden="true">
+              <div class="app__status"><span>9:41</span><span>&#9679;&#9679;&#9679; 5G</span></div>
+              <div class="app__body">
+                <div><div class="ma-title">My shifts</div><div class="ma-sub">Week of 12 Oct · 27.5 hours</div></div>
+                <div class="ma-days">
+                  <div class="ma-day ma-day--on">M<b>12</b><i></i></div>
+                  <div class="ma-day">T<b>13</b><i></i></div>
+                  <div class="ma-day ma-day--on">W<b>14</b><i></i></div>
+                  <div class="ma-day ma-day--today">T<b>15</b><i></i></div>
+                  <div class="ma-day">F<b>16</b><i></i></div>
+                  <div class="ma-day ma-day--on">S<b>17</b><i></i></div>
+                  <div class="ma-day ma-day--on">S<b>18</b><i></i></div>
+                </div>
+                <div class="ma-row" style="--c:#16a34a"><div><small>Mon 12 · Server</small><b>11:00 to 16:00</b></div><span class="tag tag--green">Worked</span></div>
+                <div class="ma-row" style="--c:#0ea5e9"><div><small>Thu 15 · Server</small><b>12:00 to 20:00</b></div><span class="tag tag--blue">Today</span></div>
+                <div class="ma-row" style="--c:#f59e0b"><div><small>Sat 17 · Bartender</small><b>18:00 to 00:00</b></div><span class="tag tag--amber">Changed</span></div>
+                <div class="ma-row" style="--c:#0ea5e9"><div><small>Sun 18 · Server</small><b>10:00 to 16:00</b></div></div>
+                <div class="ma-btn">Confirm my rota</div>
+              </div>
+            </div>
+          </div></div>
+          <figcaption><b>Shifts</b>The week, across every site they work</figcaption>
+        </figure>
+
+        <figure>
+          <div class="phone"><div class="phone__screen">
+            <div class="app" aria-hidden="true">
+              <div class="app__status"><span>9:41</span><span>&#9679;&#9679;&#9679; 5G</span></div>
+              <div class="app__body">
+                <div><div class="ma-title">Time off</div><div class="ma-sub">Leave year 2026</div></div>
+                <div class="ma-card">
+                  <div class="ma-big">20 days</div>
+                  <div class="ma-sub">left to book</div>
+                  <div class="ma-bar"><i></i></div>
+                  <div class="ma-split"><span>8 used</span><span>28 allowance</span></div>
+                </div>
+                <div class="ma-row" style="--c:#f59e0b"><div><small>Annual leave · 2 days</small><b>24 to 25 Dec</b></div><span class="tag tag--amber">Waiting</span></div>
+                <div class="ma-row" style="--c:#16a34a"><div><small>Annual leave · 2 days</small><b>6 to 9 Nov</b></div><span class="tag tag--green">Approved</span></div>
+                <div class="ma-row" style="--c:#94a3b8"><div><small>Bank holidays</small><b>25 and 26 Dec</b></div></div>
+                <div class="ma-btn">Request time off</div>
+              </div>
+            </div>
+          </div></div>
+          <figcaption><b>Time off</b>Book holiday without a phone call</figcaption>
+        </figure>
+      </div>
+
+      <div class="app-feats">
+        <div class="mini reveal"><svg class="i"><use href="#i-swap"/></svg><b>Swaps and giveaways</b><span>Offer a shift to a colleague. Changes of hands go to the manager to approve.</span></div>
+        <div class="mini reveal"><svg class="i"><use href="#i-file"/></svg><b>Documents and signing</b><span>Read and sign contracts and policies, upload evidence from the camera.</span></div>
+        <div class="mini reveal"><svg class="i"><use href="#i-megaphone"/></svg><b>Announcements</b><span>Post to a site or a position and see exactly who has read it.</span></div>
+        <div class="mini reveal"><svg class="i"><use href="#i-lock"/></svg><b>Private by default</b><span>Email code sign-in, Face ID lock and access only to their own records.</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Views -->
+  <section class="section section--soft" id="views">
+    <div class="wrap">
+      <div class="section-head center reveal">
+        <span class="eyebrow">Every view</span>
+        <h2>See the team the way you work</h2>
+        <p class="lead">Thirteen ways to look at your rota, your people and your venue floor. Every list and grid comes in Comfortable or Compact, so a team of eight and a team of eighty both fit.</p>
+      </div>
+      <div class="views">
+        <article class="vgroup reveal">
+          <h3><span class="fcat__ico"><svg class="i"><use href="#i-calendar"/></svg></span>Rota</h3>
+          <ul>
+            <li><b>Week</b><span>Seven days by position or person, with hours, cost and weather.</span></li>
+            <li><b>Day</b><span>An hourly timeline for one trading day, with staff counted per hour.</span></li>
+            <li><b>Month</b><span>Hours, cost and staff for every day of the month.</span></li>
+            <li><b>Coverage heatmap</b><span>How many people are on the floor, hour by hour.</span></li>
+          </ul>
+        </article>
+        <article class="vgroup reveal">
+          <h3><span class="fcat__ico"><svg class="i"><use href="#i-users"/></svg></span>Employees</h3>
+          <ul>
+            <li><b>List and classic list</b><span>Everyone across every site, with the columns you choose.</span></li>
+            <li><b>Grid</b><span>A card for every person.</span></li>
+            <li><b>People and profile</b><span>Browse the team with the profile open alongside.</span></li>
+            <li><b>Org chart</b><span>Reporting lines across every site. Drag to change them.</span></li>
+            <li><b>Team by location</b><span>Every site on a map, with who works there.</span></li>
+          </ul>
+        </article>
+        <article class="vgroup reveal">
+          <h3><span class="fcat__ico"><svg class="i"><use href="#i-tablet"/></svg></span>Kiosk</h3>
+          <ul>
+            <li><b>Cards</b><span>Staff tap their own card to clock in.</span></li>
+            <li><b>List</b><span>One line per person, for large teams.</span></li>
+            <li><b>Search</b><span>Type a name or employee number.</span></li>
+          </ul>
+          <div class="density">
+            <span class="density__label">Density</span>
+            <span class="density__opt">Comfortable</span>
+            <span class="density__opt density__opt--on">Compact</span>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- Full feature list -->
+  <section class="section" id="all-features">
+    <div class="wrap">
+      <div class="section-head center reveal">
+        <span class="eyebrow">Everything in ShiftFlow</span>
+        <h2>The full feature list</h2>
+        <p class="lead">The rota, the time clock, HR, documents and the employee app, all in one system. Switch on the parts each venue needs.</p>
+      </div>
+      <div class="flist">
+        <article class="fcat reveal">
+          <h3><span class="fcat__ico"><svg class="i"><use href="#i-calendar"/></svg></span>Scheduling</h3>
+          <ul>
+            <li>Week, day, month and coverage heatmap views</li>
+            <li>Comfortable or Compact density</li>
+            <li>Drag and drop, resize and drag-create shifts</li>
+            <li>Shift templates, copy last week or start from scratch</li>
+            <li>Group by position, category, person or day part</li>
+            <li>Live hours, cost, wage percentage and sales per labour hour</li>
+            <li>Weather forecast on every day</li>
+            <li>Draft, approval and publish workflow</li>
+            <li>Amend after publishing, notifying only changed shifts</li>
+            <li>Past days locked against edits</li>
+            <li>Staff availability shown on the rota</li>
+            <li>Rota acknowledgement by staff</li>
+            <li>Print as graphical, table or roster</li>
+          </ul>
+        </article>
+        <article class="fcat reveal">
+          <h3><span class="fcat__ico"><svg class="i"><use href="#i-layers"/></svg></span>Multi-site and shift cover</h3>
+          <ul>
+            <li>Staff with a home site and extra sites they can work at</li>
+            <li>Double bookings across sites blocked and explained</li>
+            <li>Open shifts broadcast across sites, claimed by staff</li>
+            <li>Shift swaps and giveaways, approved by managers</li>
+            <li>Transfers between sites with an audit trail</li>
+            <li>Settings set once for the business, overridden per site</li>
+            <li>Trading days that run past midnight</li>
+          </ul>
+        </article>
+        <article class="fcat reveal">
+          <h3><span class="fcat__ico"><svg class="i"><use href="#i-clock"/></svg></span>Time and attendance</h3>
+          <ul>
+            <li>Tablet kiosk with PIN clock-in, breaks and clock-out</li>
+            <li>Kiosk cards, list or search view, in two densities</li>
+            <li>Works offline and syncs when back online</li>
+            <li>Optional photo on clock-in, and geofencing</li>
+            <li>Late, early leave and no-show rules you can tune</li>
+            <li>Unscheduled clock-ins approved into the timesheet</li>
+            <li>Manager overrides with a reason and audit record</li>
+            <li>Day and week timesheets, planned against actual</li>
+            <li>Approve a whole week in one click</li>
+            <li>Missed clock-out sweep</li>
+          </ul>
+        </article>
+        <article class="fcat reveal">
+          <h3><span class="fcat__ico"><svg class="i"><use href="#i-users"/></svg></span>People and HR</h3>
+          <ul>
+            <li>Six directory views: list, classic list, grid, people and profile, org chart and team by location map</li>
+            <li>Profiles for personal, employment, pay, bank, immigration, notes and history</li>
+            <li>Several positions per person, each with its own pay rate</li>
+            <li>Hourly, salaried and zero hours contracts</li>
+            <li>Reporting lines, edited by dragging on the org chart</li>
+            <li>Leavers and rehires with dated history</li>
+            <li>People insights: headcount, contracts, service and turnover</li>
+            <li>Import your staff list from your previous HR system</li>
+            <li>Employee number formats and consistent name capitalisation</li>
+          </ul>
+        </article>
+        <article class="fcat reveal">
+          <h3><span class="fcat__ico"><svg class="i"><use href="#i-pen"/></svg></span>Onboarding and documents</h3>
+          <ul>
+            <li>New starter link with a form you configure</li>
+            <li>Right to Work checks, with expiry reminders at 30, 14 and 7 days</li>
+            <li>Contracts and policies signed online, with countersigning</li>
+            <li>Contract templates that fill in the employee's details</li>
+            <li>Send a document for signature to a whole site or position</li>
+            <li>Encrypted document library with folders and document types</li>
+            <li>Document expiry warnings</li>
+          </ul>
+        </article>
+        <article class="fcat reveal">
+          <h3><span class="fcat__ico"><svg class="i"><use href="#i-plane"/></svg></span>Holiday and absence</h3>
+          <ul>
+            <li>Absence types, entitlements and leave years</li>
+            <li>Allowances, carry-over and blackout dates</li>
+            <li>UK bank holidays</li>
+            <li>Sickness recording</li>
+            <li>Leave shown on the rota and checked for clashes</li>
+            <li>Requests approved from one inbox</li>
+          </ul>
+        </article>
+        <article class="fcat reveal">
+          <h3><span class="fcat__ico"><svg class="i"><use href="#i-landmark"/></svg></span>UK compliance</h3>
+          <ul>
+            <li>11 hours rest between shifts</li>
+            <li>48 hour average working week</li>
+            <li>Minimum breaks</li>
+            <li>Daily hours and night work limits for under-18s</li>
+            <li>Food hygiene and management certificates by position</li>
+            <li>Visa weekly hour caps from Right to Work, across all sites</li>
+            <li>Leave clashes and overlapping shifts</li>
+            <li>Errors block publishing, warnings are shown</li>
+          </ul>
+        </article>
+        <article class="fcat reveal">
+          <h3><span class="fcat__ico"><svg class="i"><use href="#i-chart"/></svg></span>Reports and dashboard</h3>
+          <ul>
+            <li>Timesheets and wage costs</li>
+            <li>Sales against labour</li>
+            <li>Attendance and overtime</li>
+            <li>Coverage heatmap</li>
+            <li>Compliance breaches</li>
+            <li>Leave summary</li>
+            <li>Right to Work status</li>
+            <li>Pay run export for payroll</li>
+            <li>Print and CSV export on every report</li>
+            <li>Dashboard with sales, labour, compliance and who is on shift now</li>
+          </ul>
+        </article>
+        <article class="fcat reveal">
+          <h3><span class="fcat__ico"><svg class="i"><use href="#i-phone"/></svg></span>Employee app</h3>
+          <ul>
+            <li>Shifts, hours worked and holiday at a glance</li>
+            <li>Request time off, even when offline</li>
+            <li>Pick up open shifts and offer swaps</li>
+            <li>Set availability</li>
+            <li>Read and sign documents, upload evidence</li>
+            <li>Update personal details, approved by a manager</li>
+            <li>Announcements with read confirmation</li>
+            <li>Sign in by emailed code, with Face ID lock</li>
+            <li>You choose which parts each site offers</li>
+          </ul>
+        </article>
+        <article class="fcat reveal">
+          <h3><span class="fcat__ico"><svg class="i"><use href="#i-megaphone"/></svg></span>Communication</h3>
+          <ul>
+            <li>Announcements to a site or position, with who has read them</li>
+            <li>In-app notifications and an approvals inbox</li>
+            <li>Rota emails with calendar attachments</li>
+            <li>Quiet hours and batching for rota emails</li>
+            <li>Birthday emails and automatic reminders</li>
+            <li>Your own email templates and email server</li>
+          </ul>
+        </article>
+        <article class="fcat reveal">
+          <h3><span class="fcat__ico"><svg class="i"><use href="#i-shield"/></svg></span>Security and administration</h3>
+          <ul>
+            <li>Single sign-on with Microsoft Entra ID or any OIDC provider</li>
+            <li>Authenticator app MFA with recovery codes</li>
+            <li>Session timeouts you set, and sign out everywhere</li>
+            <li>Roles from fine-grained permissions, scoped to sites</li>
+            <li>Full audit log of every change</li>
+            <li>Encrypted sensitive data with key rotation</li>
+            <li>One login across several businesses</li>
+            <li>Twelve colour themes, light and dark</li>
+          </ul>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- Security and platform -->
+  <section class="section section--dark" id="security">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <span class="eyebrow">Security and platform</span>
+        <h2>Serious about your people's data</h2>
+        <p class="lead">Staff records hold passports, bank details and National Insurance numbers. ShiftFlow was built to protect them from the first line of code.</p>
+      </div>
+      <div class="grid4">
+        <div class="tile reveal"><svg class="i"><use href="#i-lock"/></svg><h3>Encrypted at rest</h3><p>Sensitive fields and documents are encrypted with AES-256-GCM, with managed key rotation.</p></div>
+        <div class="tile reveal"><svg class="i"><use href="#i-database"/></svg><h3>Tenant isolation</h3><p>Every business is separated at the database itself with row level security, not only in the application.</p></div>
+        <div class="tile reveal"><svg class="i"><use href="#i-key"/></svg><h3>SSO and MFA</h3><p>Single sign-on with Microsoft Entra ID or any OIDC provider, plus authenticator app MFA.</p></div>
+        <div class="tile reveal"><svg class="i"><use href="#i-shield"/></svg><h3>Granular permissions</h3><p>Roles built from fine-grained permissions, scoped to the locations each manager looks after.</p></div>
+        <div class="tile reveal"><svg class="i"><use href="#i-history"/></svg><h3>Full audit trail</h3><p>Every change is recorded with who, when and what it was before, ready for any dispute.</p></div>
+        <div class="tile reveal"><svg class="i"><use href="#i-gear"/></svg><h3>Settings that inherit</h3><p>Set it once for the business, override it for a single venue only where you need to.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Roadmap -->
+  <section class="section">
+    <div class="wrap roadmap">
+      <div class="reveal">
+        <span class="eyebrow">Coming next</span>
+        <h2>Let your sales drive your rota</h2>
+        <p class="lead">ShiftFlow already reports sales against labour. Point of sale integrations are on the roadmap, so live sales can forecast how many people you need, hour by hour.</p>
+      </div>
+      <div class="pos reveal" aria-label="Planned point of sale integrations">
+        <div>Lightspeed</div><div>Toast</div><div>Square</div><div>Tevalis</div><div>Zonal</div><div><svg class="i" width="26" height="26"><use href="#i-plug"/></svg></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact -->
+  <section class="section" id="contact" style="padding-top:0">
+    <div class="wrap">
+      <div class="cta reveal">
+        <div>
+          <span class="eyebrow">Get started</span>
+          <h2>See ShiftFlow with your own rota</h2>
+          <p class="lead">Tell us about your venues and we will set up a demo workspace with your positions and locations, so you can see exactly how your week would look.</p>
+        </div>
+        <div class="cta__box">
+          <p>Book a 30 minute walkthrough, or ask us anything about moving from your current system. We can import your staff list for you.</p>
+          <a class="btn btn--primary" href="mailto:info@btree.uk?subject=ShiftFlow%20demo"><svg class="i"><use href="#i-mail"/></svg> Book a demo</a>
+          <a class="cta__mail" href="mailto:info@btree.uk">info@btree.uk</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- About btree -->
+  <section class="section section--soft" id="about">
+    <div class="wrap btree">
+      <div class="reveal">
+        <span class="eyebrow">Who we are</span>
+        <div class="btree__logo">{btree}</div>
+      </div>
+      <div class="reveal">
+        <p class="lead" style="color:var(--text)">ShiftFlow is designed and built in the UK by {btree}, a technology consultancy that blends deep technical expertise with business insight to build scalable, smart and sustainable digital products.</p>
+        <ul class="services">
+          <li><b>Custom software development</b>Full-stack applications on modern, cloud-native foundations.</li>
+          <li><b>Microsoft cloud and on-premises</b>Microsoft 365, Azure, Exchange and Active Directory.</li>
+          <li><b>Enterprise architecture</b>Security, integration patterns and modernisation.</li>
+          <li><b>DevOps and infrastructure as code</b>Pipelines, provisioning and secure environments.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="footer">
+  <div class="wrap footer__inner">
+    <a class="brand" href="#top"><img src="assets/favicon.svg" alt="" width="28" height="28" /><span>ShiftFlow<small>by {btree}</small></span></a>
+    <nav aria-label="Footer">
+      <a href="#features">Features</a>
+      <a href="#all-features">All features</a>
+      <a href="#security">Security</a>
+      <a href="https://shiftflow.btree.uk">Sign in</a>
+      <a href="mailto:info@btree.uk">Contact</a>
+    </nav>
+    <span>&copy; <span id="year">2026</span> {btree}. All rights reserved.</span>
+  </div>
+</footer>
+
+
+<script src="assets/js/site.js" defer></script>
 </body>
 </html>
