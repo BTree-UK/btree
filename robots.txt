@@ -1,5 +1,11 @@
 # https://btree.uk/robots.txt
+#
+# Content Signals (https://contentsignals.org/)
+#   search   - building a search index and showing links/snippets in results
+#   ai-input - using content as input to AI answers (e.g. AI search, RAG)
+#   ai-train - training or fine-tuning AI models
 User-agent: *
+Content-Signal: search=yes, ai-input=yes, ai-train=no
 Allow: /
 
 Sitemap: https://btree.uk/sitemap.xml
