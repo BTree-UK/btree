@@ -1,0 +1,5 @@
+# https://btree.uk/robots.txt
+User-agent: *
+Allow: /
+
+Sitemap: https://btree.uk/sitemap.xml
