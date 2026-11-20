@@ -6,16 +6,13 @@
   <title>Page not found | BTree</title>
   <meta name="description" content="The page you were looking for could not be found." />
   <meta name="theme-color" content="#070f2b" />
-  <meta property="og:title" content="Page not found | BTree" />
-  <meta property="og:description" content="The page you were looking for could not be found." />
-  <meta property="og:type" content="website" />
-  <meta property="og:url" content="https://btree.uk/" />
   <meta name="robots" content="noindex" />
   <link rel="icon" href="/assets/btree-icon.svg" type="image/svg+xml" />
+  <link rel="icon" href="/assets/icons/favicon-48.png" type="image/png" sizes="48x48" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="/assets/css/site.css?v=13032aaf" />
+  <link rel="stylesheet" href="/assets/css/site.css?v=c9d8eb2d" />
   <style>svg.i { fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }</style>
 </head>
 <body>
@@ -86,9 +83,9 @@
         </div>
         <p class="nf__links">Or try <a href="/shiftflow/">ShiftFlow</a>, <a href="/#contact">get in touch</a>, or tell us about the broken link at <a href="mailto:info@btree.uk?subject=Broken%20link%20on%20btree.uk">info@btree.uk</a>.</p>
       </div>
-      <div class="nf__term" role="img" aria-label="A terminal running diagnostics: the network, firewall, DNS and coffee are all fine, but the page cannot be found.">
-        <div class="nf__bar" aria-hidden="true"><i></i><i></i><i></i><span>btree@diagnostics: ~</span></div>
-        <pre class="nf__out" aria-hidden="true"><code><span class="ln" style="--d:0"><span class="t-p">$</span> curl -I https://btree.uk<span class="nf__path">/this-page</span></span><span class="ln" style="--d:1">HTTP/2 <b class="t-bad">404 Not Found</b></span><span class="ln" style="--d:2">&nbsp;</span><span class="ln" style="--d:3"><span class="t-p">$</span> btree diagnose --everything</span><span class="ln" style="--d:4"><span class="t-dim">[</span><span class="t-ok">&nbsp;OK&nbsp;</span><span class="t-dim">]</span> network     <span class="t-dim">online</span></span><span class="ln" style="--d:5"><span class="t-dim">[</span><span class="t-ok">&nbsp;OK&nbsp;</span><span class="t-dim">]</span> firewall    <span class="t-dim">holding the line</span></span><span class="ln" style="--d:6"><span class="t-dim">[</span><span class="t-ok">&nbsp;OK&nbsp;</span><span class="t-dim">]</span> dns         <span class="t-dim">resolving</span></span><span class="ln" style="--d:7"><span class="t-dim">[</span><span class="t-ok">&nbsp;OK&nbsp;</span><span class="t-dim">]</span> coffee      <span class="t-dim">freshly brewed</span></span><span class="ln" style="--d:8"><span class="t-dim">[</span><span class="t-bad">FAIL</span><span class="t-dim">]</span> this page   <span class="t-bad">gone walkabout</span></span><span class="ln" style="--d:9">&nbsp;</span><span class="ln" style="--d:10"><span class="t-p">$</span> <span class="nf__cursor"></span></span></code></pre>
+      <div class="term" role="img" aria-label="A terminal running diagnostics: the network, firewall, DNS and coffee are all fine, but the page cannot be found.">
+        <div class="term__bar" aria-hidden="true"><i></i><i></i><i></i><span>btree@diagnostics: ~</span></div>
+        <pre class="term__out" aria-hidden="true"><code><span class="ln" style="--d:0"><span class="t-p">$</span> curl -I https://btree.uk<span class="nf__path">/this-page</span></span><span class="ln" style="--d:1">HTTP/2 <b class="t-bad">404 Not Found</b></span><span class="ln" style="--d:2">&nbsp;</span><span class="ln" style="--d:3"><span class="t-p">$</span> btree diagnose --everything</span><span class="ln" style="--d:4"><span class="t-dim">[</span><span class="t-ok">&nbsp;OK&nbsp;</span><span class="t-dim">]</span> network     <span class="t-dim">online</span></span><span class="ln" style="--d:5"><span class="t-dim">[</span><span class="t-ok">&nbsp;OK&nbsp;</span><span class="t-dim">]</span> firewall    <span class="t-dim">holding the line</span></span><span class="ln" style="--d:6"><span class="t-dim">[</span><span class="t-ok">&nbsp;OK&nbsp;</span><span class="t-dim">]</span> dns         <span class="t-dim">resolving</span></span><span class="ln" style="--d:7"><span class="t-dim">[</span><span class="t-ok">&nbsp;OK&nbsp;</span><span class="t-dim">]</span> coffee      <span class="t-dim">freshly brewed</span></span><span class="ln" style="--d:8"><span class="t-dim">[</span><span class="t-bad">FAIL</span><span class="t-dim">]</span> this page   <span class="t-bad">gone walkabout</span></span><span class="ln" style="--d:9">&nbsp;</span><span class="ln" style="--d:10"><span class="t-p">$</span> <span class="term__cursor"></span></span></code></pre>
       </div>
     </div>
   </section>
@@ -119,6 +116,7 @@
       </ul></nav>
       <nav aria-label="Products"><h4>Products</h4><ul>
         <li><a href="/shiftflow/">ShiftFlow</a></li>
+        <li><a href="https://shiftflow.btree.uk">ShiftFlow sign in</a></li>
         <li><span>CRM (coming soon)</span></li>
         <li><span>EventFlow (coming soon)</span></li>
       </ul></nav>
@@ -137,6 +135,6 @@
   </div>
 </footer>
 
-<script src="/assets/js/site.js?v=d43ee9f0" defer></script>
+<script src="/assets/js/site.js?v=5e12b4c5" defer></script>
 </body>
 </html>

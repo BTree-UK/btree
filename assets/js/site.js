@@ -392,6 +392,236 @@
     });
   });
 
+  var calm = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  // Home hero: the last word of the headline glitches from one word to the next.
+  document.querySelectorAll('.rot[data-words]').forEach(function (rot) {
+    var word = rot.querySelector('.rot__word');
+    var words = rot.getAttribute('data-words').split('|');
+    if (calm || !word || words.length < 2) return;
+    // Reserve the width of the longest word, so the heading never rewraps as words change
+    // (a moving layout counts against Core Web Vitals). A rotator on its own line needs no reserve.
+    function reserve() {
+      if (getComputedStyle(rot).display === 'block') { rot.style.minWidth = ''; return; }
+      var probe = word.cloneNode(false);
+      probe.style.cssText = 'position:absolute;visibility:hidden;white-space:nowrap;left:0;top:0';
+      rot.appendChild(probe);
+      var max = 0;
+      words.forEach(function (w) { probe.textContent = w; max = Math.max(max, probe.getBoundingClientRect().width); });
+      rot.removeChild(probe);
+      rot.style.minWidth = Math.ceil(max) + 'px';
+    }
+    reserve();
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(reserve);
+    var resizeTimer;
+    window.addEventListener('resize', function () { clearTimeout(resizeTimer); resizeTimer = setTimeout(reserve, 150); });
+    var i = 0;
+    setInterval(function () {
+      if (document.hidden) return;
+      i = (i + 1) % words.length;
+      word.classList.add('is-glitch');
+      setTimeout(function () { word.textContent = words[i]; word.setAttribute('data-text', words[i]); }, 160);
+      setTimeout(function () { word.classList.remove('is-glitch'); }, 440);
+    }, 2800);
+  });
+
+  // Home hero: a soft spotlight follows the pointer.
+  document.querySelectorAll('.hero__glow').forEach(function (glow) {
+    var hero = glow.parentElement;
+    if (calm) return;
+    // At most one update per frame, however fast the mouse reports.
+    var last = null, queued = false;
+    hero.addEventListener('pointermove', function (e) {
+      last = e;
+      if (queued) return;
+      queued = true;
+      requestAnimationFrame(function () {
+        queued = false;
+        var r = hero.getBoundingClientRect();
+        glow.style.setProperty('--mx', (last.clientX - r.left) + 'px');
+        glow.style.setProperty('--my', (last.clientY - r.top) + 'px');
+      });
+    }, { passive: true });
+  });
+
+  // Partner logos: the page holds one set (so search engines see each link once).
+  // Copies are added here, just enough to fill two widths of the screen for a seamless loop.
+  document.querySelectorAll('.marquee').forEach(function (m) {
+    var track = m.querySelector('.marquee__track');
+    if (calm || !track || !track.children.length) return;
+    var originals = Array.prototype.slice.call(track.children);
+    m.classList.add('is-moving');
+    var setWidth = track.scrollWidth;
+    var perHalf = Math.max(1, Math.ceil(m.clientWidth / Math.max(setWidth, 1)));
+    for (var n = 1; n < perHalf * 2; n++) {
+      originals.forEach(function (li) {
+        var copy = li.cloneNode(true);
+        copy.setAttribute('aria-hidden', 'true');
+        copy.querySelectorAll('a').forEach(function (a) { a.tabIndex = -1; });
+        copy.querySelectorAll('img').forEach(function (img) { img.alt = ''; img.loading = 'eager'; });
+        track.appendChild(copy);
+      });
+    }
+  });
+
+  // ShiftFlow journey: stops on a line, a train that moves between them, and a feature search.
+  // Without JavaScript every stage is simply listed one after another.
+  document.querySelectorAll('.journey').forEach(function (j) {
+    var line = j.querySelector('.jline');
+    var tabs = Array.prototype.slice.call(j.querySelectorAll('.jstop'));
+    var panels = tabs.map(function (t) { return document.getElementById(t.getAttribute('aria-controls')); });
+    var input = j.querySelector('#jsearch');
+    var count = j.querySelector('.jsearch__count');
+    var empty = j.querySelector('.jempty');
+    var items = Array.prototype.slice.call(j.querySelectorAll('.jfeat li'));
+    if (!line || !tabs.length) return;
+    items.forEach(function (li) { li.dataset.text = li.textContent; });
+    panels.forEach(function (p) {
+      Array.prototype.forEach.call(p.querySelectorAll('li'), function (li, i) { li.style.setProperty('--i', String(i)); });
+    });
+    j.classList.add('is-ready');
+
+    var current = 0, timer = null, touched = false, hovering = false;
+    function select(i, focus) {
+      current = i;
+      tabs.forEach(function (t, k) {
+        t.setAttribute('aria-selected', String(k === i));
+        t.tabIndex = k === i ? 0 : -1;
+        t.classList.toggle('is-passed', k < i);
+      });
+      panels.forEach(function (p, k) { p.classList.toggle('is-active', k === i); });
+      line.style.setProperty('--p', (tabs.length > 1 ? (i / (tabs.length - 1)) * 100 : 0) + '%');
+      if (focus) tabs[i].focus();
+    }
+    function stopAuto() { touched = true; clearInterval(timer); timer = null; }
+    function startAuto() {
+      if (calm || touched || hovering || timer) return;
+      timer = setInterval(function () {
+        if (!j.classList.contains('is-searching')) select((current + 1) % tabs.length);
+      }, 4500);
+    }
+
+    tabs.forEach(function (t, i) {
+      t.addEventListener('click', function () {
+        stopAuto();
+        if (input && input.value) { input.value = ''; runSearch(); }
+        select(i);
+      });
+      t.addEventListener('keydown', function (e) {
+        var next = { ArrowRight: i + 1, ArrowDown: i + 1, ArrowLeft: i - 1, ArrowUp: i - 1, Home: 0, End: tabs.length - 1 }[e.key];
+        if (next === undefined) return;
+        e.preventDefault();
+        stopAuto();
+        select((next + tabs.length) % tabs.length, true);
+      });
+    });
+
+    // The train runs on its own while the map is on screen, until someone takes over.
+    var map = j.querySelector('.jmap');
+    if ('IntersectionObserver' in window) {
+      new IntersectionObserver(function (entries) {
+        entries.forEach(function (en) {
+          if (en.isIntersecting) startAuto();
+          else { clearInterval(timer); timer = null; }
+        });
+      }, { threshold: 0.35 }).observe(map);
+    }
+    map.addEventListener('pointerenter', function () { hovering = true; clearInterval(timer); timer = null; });
+    map.addEventListener('pointerleave', function () { hovering = false; startAuto(); });
+
+    function esc(s) { return s.replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
+    function runSearch() {
+      var q = input.value.trim().toLowerCase();
+      var total = 0;
+      j.classList.toggle('is-searching', !!q);
+      items.forEach(function (li) {
+        var text = li.dataset.text;
+        var at = q ? text.toLowerCase().indexOf(q) : -1;
+        var hit = !q || at >= 0;
+        li.classList.toggle('is-hidden', !hit);
+        li.innerHTML = at >= 0
+          ? esc(text.slice(0, at)) + '<mark>' + esc(text.slice(at, at + q.length)) + '</mark>' + esc(text.slice(at + q.length))
+          : esc(text);
+        if (q && hit) total++;
+      });
+      tabs.forEach(function (t, k) {
+        var n = q ? panels[k].querySelectorAll('li:not(.is-hidden)').length : 0;
+        t.querySelector('.jstop__hits').textContent = n ? String(n) : '';
+        t.classList.toggle('is-nohit', !!q && !n);
+        panels[k].classList.toggle('is-nohit', !!q && !n);
+      });
+      j.querySelectorAll('.jbg').forEach(function (b) {
+        b.classList.toggle('is-nohit', !!q && !b.querySelector('li:not(.is-hidden)'));
+      });
+      var always = j.querySelector('.jalways');
+      if (always) always.classList.toggle('is-nohit', !!q && !always.querySelector('.jbg:not(.is-nohit)'));
+      count.textContent = q ? total + (total === 1 ? ' match' : ' matches') : '';
+      empty.hidden = !q || total > 0;
+    }
+    if (input) input.addEventListener('input', function () { stopAuto(); runSearch(); });
+
+    select(0);
+  });
+
+  // ShiftFlow industries: a live "now" line at the current UK time, and how many shifts are on.
+  document.querySelectorAll('.industries--live').forEach(function (grid) {
+    var clock = document.querySelector('.ind2__clock');
+    var timeEl = clock && clock.querySelector('.ind2__time');
+    function pad(n) { return (n < 10 ? '0' : '') + n; }
+    function ukNow() {
+      try {
+        var parts = new Intl.DateTimeFormat('en-GB', { timeZone: 'Europe/London', hour: '2-digit', minute: '2-digit', hourCycle: 'h23' }).formatToParts(new Date());
+        var get = function (type) { return Number(parts.filter(function (p) { return p.type === type; })[0].value); };
+        return { h: get('hour') % 24, m: get('minute') };
+      } catch (e) {
+        var d = new Date();
+        return { h: d.getHours(), m: d.getMinutes() };
+      }
+    }
+    function covers(s, e, h) { return (h >= s && h < e) || (h + 24 >= s && h + 24 < e); }
+    function tick() {
+      var t = ukNow(), now = t.h + t.m / 60;
+      grid.style.setProperty('--now', now.toFixed(3));
+      grid.classList.add('has-now');
+      if (clock) { clock.hidden = false; timeEl.textContent = pad(t.h) + ':' + pad(t.m); }
+      grid.querySelectorAll('.ind2').forEach(function (card) {
+        var shifts = (card.getAttribute('data-shifts') || '').split(',').map(function (x) { return x.split('-').map(Number); });
+        var lanes = card.querySelectorAll('.shiftmap__lane');
+        var on = 0;
+        shifts.forEach(function (se, i) {
+          var live = covers(se[0], se[1], now);
+          if (live) on++;
+          if (lanes[i]) Array.prototype.forEach.call(lanes[i].children, function (bar) { bar.classList.toggle('is-on', live); });
+        });
+        card.classList.toggle('is-busy', on > 0);
+        card.querySelector('.ind2__count').textContent = on === 0 ? 'Quiet right now' : on + (on === 1 ? ' shift on now' : ' shifts on now');
+      });
+    }
+    tick();
+    setInterval(tick, 60000);
+  });
+
+  // Privacy banner. The site sets no tracking cookies, so this informs rather than asks for consent.
+  // Closing it is remembered on this device only (localStorage), never sent anywhere.
+  (function () {
+    var KEY = 'btree-privacy-seen';
+    try { if (localStorage.getItem(KEY)) return; } catch (e) { /* storage blocked: just show it */ }
+    var bar = document.createElement('div');
+    bar.className = 'privacy';
+    bar.setAttribute('role', 'region');
+    bar.setAttribute('aria-label', 'Privacy');
+    bar.innerHTML = '<p><b>No tracking here.</b> We don’t use advertising or analytics cookies. ' +
+      'Our contact form uses Cloudflare Turnstile to stop spam. <a href="/privacy/">Privacy notice</a></p>' +
+      '<button type="button" class="btn btn--primary">Got it</button>';
+    document.body.appendChild(bar);
+    setTimeout(function () { bar.classList.add('is-in'); }, 600);
+    bar.querySelector('button').addEventListener('click', function () {
+      try { localStorage.setItem(KEY, '1'); } catch (e) { /* ignore */ }
+      bar.classList.remove('is-in');
+      setTimeout(function () { bar.remove(); }, 350);
+    });
+  })();
+
   var year = document.getElementById('year');
   if (year) year.textContent = String(new Date().getFullYear());
 })();
