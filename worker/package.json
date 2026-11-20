@@ -1,0 +1,13 @@
+{
+  "name": "btree-contact",
+  "private": true,
+  "scripts": {
+    "dev": "wrangler dev",
+    "deploy": "wrangler deploy",
+    "db:init:local": "wrangler d1 execute btree-contact --local --file=schema.sql",
+    "db:init": "wrangler d1 execute btree-contact --remote --file=schema.sql"
+  },
+  "devDependencies": {
+    "wrangler": "^4.0.0"
+  }
+}

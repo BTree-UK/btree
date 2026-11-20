@@ -1,0 +1,29 @@
+name = "btree-contact"
+main = "src/index.js"
+compatibility_date = "2026-11-01"
+
+# Serve the API at https://forms.btree.uk (btree.uk's DNS is on Cloudflare).
+routes = [{ pattern = "forms.btree.uk", custom_domain = true }]
+
+[vars]
+ALLOWED_ORIGINS = "https://btree.uk,https://www.btree.uk,http://localhost:8000,http://127.0.0.1:8000"
+MAIL_TO = "info@btree.uk"
+MAIL_FROM = "info@btree.uk"
+
+[[d1_databases]]
+binding = "DB"
+database_name = "btree-contact"
+database_id = "dcbae467-6455-4031-a52d-128f3fa393d4"
+
+# Daily clean-up of enquiries older than the retention period (03:15 UTC).
+[triggers]
+crons = ["15 3 * * *"]
+
+[observability]
+enabled = true
+
+# Secrets (set with `npx wrangler secret put NAME`, never commit them):
+#   TURNSTILE_SECRET   Turnstile widget secret key
+#   MS_TENANT_ID       Microsoft Entra tenant ID
+#   MS_CLIENT_ID       App registration (client) ID with Graph Mail.Send (application)
+#   MS_CLIENT_SECRET   App registration client secret
