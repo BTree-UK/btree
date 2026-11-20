@@ -30,7 +30,7 @@ npm run db:init                          # creates the enquiries table
 Cloudflare dashboard > Turnstile > Add widget:
 
 - Name: `btree.uk contact form`
-- Hostnames: `btree.uk`, `www.btree.uk`, `localhost`
+- Hostnames: `btree.uk`, `www.btree.uk` (keep `localhost` out of the live widget)
 - Mode: Managed
 
 Put the **site key** into `TURNSTILE_SITE_KEY` in `tools/build_site.py` and rebuild the site (`python tools/build_site.py .` from the repo root). Store the **secret key** in the Worker:
@@ -88,10 +88,19 @@ npx wrangler d1 execute btree-contact --remote --command "DELETE FROM enquiries 
 
 ## Local development
 
+The live Worker and Turnstile widget only accept btree.uk, so local testing uses a local Worker and Cloudflare's test keys. Create `worker/.dev.vars` (gitignored) with:
+
 ```sh
-echo TURNSTILE_SECRET=1x0000000000000000000000000000000AA > .dev.vars   # Cloudflare's always-pass test secret
-npm run db:init:local
-npm run dev                                                             # http://localhost:8787
+TURNSTILE_SECRET=1x0000000000000000000000000000000AA
+ALLOWED_ORIGINS=http://localhost:8000,http://127.0.0.1:8000
 ```
 
-Then open the site with `?localapi`, for example `http://localhost:8000/?localapi#contact`, and the form posts to the local Worker. Without it, even on localhost, the form posts to the live API (localhost is an allowed origin), which is handy for a real end-to-end test.
+Then:
+
+```sh
+npm run db:init:local
+npm run dev                     # local Worker on http://localhost:8787
+python tools/serve.py           # from the repo root, site on http://localhost:8000
+```
+
+Open the site with `?localapi`, for example `http://localhost:8000/?localapi#contact`. The form then posts to the local Worker and uses Cloudflare's always-pass Turnstile test key. Without `?localapi` the form talks to the live API, which rejects localhost.

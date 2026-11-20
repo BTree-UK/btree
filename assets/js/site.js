@@ -254,7 +254,8 @@
     turnstiles.forEach(function (el) {
       if (el.dataset.widgetId) return;
       el.dataset.widgetId = window.turnstile.render(el, {
-        sitekey: el.dataset.sitekey,
+        // With ?localapi (local Worker), use Cloudflare's always-pass test key: the real key only works on btree.uk.
+        sitekey: /[?&]localapi(=|&|$)/.test(location.search) ? '1x00000000000000000000AA' : el.dataset.sitekey,
         theme: 'dark',
         size: el.clientWidth < 300 ? 'compact' : 'flexible',
       });

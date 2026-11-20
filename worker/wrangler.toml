@@ -6,7 +6,7 @@ compatibility_date = "2026-11-01"
 routes = [{ pattern = "forms.btree.uk", custom_domain = true }]
 
 [vars]
-ALLOWED_ORIGINS = "https://btree.uk,https://www.btree.uk,http://localhost:8000,http://127.0.0.1:8000"
+ALLOWED_ORIGINS = "https://btree.uk,https://www.btree.uk"
 MAIL_TO = "info@btree.uk"
 MAIL_FROM = "info@btree.uk"
 
