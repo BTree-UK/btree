@@ -373,6 +373,7 @@
           form.reset();
           emailError('');
           form.classList.add('is-sent');
+          track('generate_lead', { form_service: data.service || '', form_page: data.page });
           show('Thank you. We have your message and will be in touch soon.', 'ok');
         })
         .catch(function (err) {
@@ -601,24 +602,91 @@
     setInterval(tick, 60000);
   });
 
-  // Privacy banner. The site sets no tracking cookies, so this informs rather than asks for consent.
-  // Closing it is remembered on this device only (localStorage), never sent anywhere.
-  (function () {
-    var KEY = 'btree-privacy-seen';
-    try { if (localStorage.getItem(KEY)) return; } catch (e) { /* storage blocked: just show it */ }
+  // Cookie consent and Google Tag Manager.
+  // Tag Manager (and so Google Analytics) loads only after the visitor clicks Accept; until then
+  // nothing is sent to Google. The choice is kept on this device (localStorage), never sent to us.
+  // With no container ID on the page (<meta name="gtm">), this is just a short privacy note.
+  var GTM = ((document.querySelector('meta[name="gtm"]') || {}).content || '').trim();
+  var CONSENT_KEY = 'btree-consent';
+  var gtmLoaded = false;
+  window.dataLayer = window.dataLayer || [];
+  function gtag() { window.dataLayer.push(arguments); }
+  function store(key, value) {
+    try { if (value === undefined) return localStorage.getItem(key); localStorage.setItem(key, value); } catch (e) { return null; }
+  }
+  function loadGtm() {
+    if (gtmLoaded || !/^GTM-[A-Z0-9]+$/.test(GTM)) return;
+    gtmLoaded = true;
+    // Analytics only: advertising signals stay off.
+    gtag('consent', 'default', { analytics_storage: 'granted', ad_storage: 'denied', ad_user_data: 'denied', ad_personalization: 'denied' });
+    window.dataLayer.push({ 'gtm.start': Date.now(), event: 'gtm.js' });
+    var js = document.createElement('script');
+    js.async = true;
+    js.src = 'https://www.googletagmanager.com/gtm.js?id=' + encodeURIComponent(GTM);
+    document.head.appendChild(js);
+  }
+  function clearAnalyticsCookies() {
+    var host = location.hostname, root = host.replace(/^www\./, '');
+    document.cookie.split(';').forEach(function (c) {
+      var name = c.split('=')[0].trim();
+      if (!/^_(ga|gid|gat)/.test(name)) return;
+      ['', '; domain=' + host, '; domain=.' + root].forEach(function (d) {
+        document.cookie = name + '=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/' + d;
+      });
+    });
+  }
+  // Send an event to Tag Manager, only if the visitor has accepted analytics.
+  function track(event, params) {
+    if (!gtmLoaded) return;
+    var o = { event: event };
+    for (var k in params) o[k] = params[k];
+    window.dataLayer.push(o);
+  }
+  function choose(value) {
+    store(CONSENT_KEY, value);
+    if (value === 'granted') loadGtm();
+    else if (gtmLoaded) { gtag('consent', 'update', { analytics_storage: 'denied' }); }
+    if (value !== 'granted') clearAnalyticsCookies();
+  }
+  function showBanner(asked) {
+    var old = document.querySelector('.privacy');
+    if (old) old.remove();
     var bar = document.createElement('div');
     bar.className = 'privacy';
     bar.setAttribute('role', 'region');
-    bar.setAttribute('aria-label', 'Privacy');
-    bar.innerHTML = '<p><b>No tracking here.</b> We don’t use advertising or analytics cookies. ' +
-      'Our contact form uses Cloudflare Turnstile to stop spam. <a href="/privacy/">Privacy notice</a></p>' +
-      '<button type="button" class="btn btn--primary">Got it</button>';
+    bar.setAttribute('aria-label', GTM ? 'Cookie choice' : 'Privacy');
+    bar.innerHTML = GTM
+      ? '<p><b>Can we use analytics cookies?</b> Google Analytics helps us see how people use this site so we can improve it. ' +
+        'No advertising cookies. <a href="/privacy/#cookies">Privacy notice</a></p>' +
+        '<div class="privacy__btns"><button type="button" class="btn btn--primary" data-choice="denied">Reject</button>' +
+        '<button type="button" class="btn btn--primary" data-choice="granted">Accept</button></div>'
+      : '<p><b>No tracking here.</b> We don’t use advertising or analytics cookies. ' +
+        'Our contact form uses Cloudflare Turnstile to stop spam. <a href="/privacy/">Privacy notice</a></p>' +
+        '<div class="privacy__btns"><button type="button" class="btn btn--primary" data-choice="seen">Got it</button></div>';
     document.body.appendChild(bar);
-    setTimeout(function () { bar.classList.add('is-in'); }, 600);
-    bar.querySelector('button').addEventListener('click', function () {
-      try { localStorage.setItem(KEY, '1'); } catch (e) { /* ignore */ }
+    setTimeout(function () {
+      bar.classList.add('is-in');
+      if (asked) bar.querySelector('button').focus();
+    }, asked ? 30 : 600);
+    bar.addEventListener('click', function (e) {
+      var btn = e.target.closest('[data-choice]');
+      if (!btn) return;
+      var v = btn.getAttribute('data-choice');
+      if (v === 'seen') store('btree-privacy-seen', '1'); else choose(v);
       bar.classList.remove('is-in');
       setTimeout(function () { bar.remove(); }, 350);
+    });
+  }
+  (function () {
+    if (GTM) {
+      var c = store(CONSENT_KEY);
+      if (c === 'granted') loadGtm();
+      else if (c !== 'denied') showBanner();
+    } else if (!store('btree-privacy-seen')) {
+      showBanner();
+    }
+    document.addEventListener('click', function (e) {
+      if (e.target.closest('[data-cookie-settings]')) showBanner(true);
     });
   })();
 

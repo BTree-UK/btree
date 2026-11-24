@@ -798,8 +798,21 @@ main { overflow-x: clip; }
 .privacy b { color: var(--white); }
 .privacy a { color: #93c5fd; font-weight: 600; }
 .privacy .btn { flex: none; padding: 9px 16px; font-size: .88rem; }
+.privacy__btns { flex: none; display: flex; gap: 8px; }
+/* Accept and Reject look the same: neither choice is nudged. */
+.privacy__btns .btn { min-width: 76px; justify-content: center; }
+/* A button that looks like a link (Cookie settings) */
+.linkbtn { background: none; border: 0; padding: 0; font: inherit; color: inherit; cursor: pointer; text-align: left; }
+.footer .linkbtn { color: #cbd5e1; }
+.footer .linkbtn:hover, .legal .linkbtn:hover { text-decoration: underline; }
+.legal .linkbtn { color: var(--blue); font-weight: 600; }
+.legal__table { width: 100%; border-collapse: collapse; margin: 12px 0 18px; font-size: .92rem; }
+.legal__table th, .legal__table td { text-align: left; padding: 8px 10px; border-bottom: 1px solid var(--line); vertical-align: top; }
+@media (max-width: 640px) { .legal__table { display: block; overflow-x: auto; } }
 @media (max-width: 640px) {
-  .privacy { left: 12px; right: 12px; bottom: 12px; max-width: none; }
+  .privacy { left: 12px; right: 12px; bottom: 12px; max-width: none; flex-wrap: wrap; }
+  .privacy__btns { width: 100%; }
+  .privacy__btns .btn { flex: 1; }
 }
 @media (prefers-reduced-motion: reduce) {
   .privacy { transition: none; }

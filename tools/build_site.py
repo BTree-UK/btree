@@ -231,14 +231,14 @@ def seo_tags(r, title, desc, url, image="btree.png", image_alt="BTree", ld=(), i
   <link rel="icon" href="{r}assets/icons/{icons[1]}" type="image/png" sizes="48x48" />
   <link rel="apple-touch-icon" href="{r}assets/icons/{icons[2]}" />
   <script type="application/ld+json">{graph}</script>
-'''
+{GTM_META}'''
 
 def robots_noindex(r):
     """Error pages: keep them out of search results and do not pretend to be another URL."""
     return f'''  <meta name="robots" content="noindex" />
   <link rel="icon" href="{r}assets/btree-icon.svg" type="image/svg+xml" />
   <link rel="icon" href="{r}assets/icons/favicon-48.png" type="image/png" sizes="48x48" />
-'''
+{GTM_META}'''
 
 
 def head(r, title, desc, url, ld=(), noindex=False):
@@ -294,6 +294,12 @@ def nav(r):
 </header>
 '''
 
+
+# Google Tag Manager container (public ID, e.g. "GTM-ABC1234"). Leave empty to switch tracking off:
+# no consent banner, no "Cookie settings" link, and the privacy notice says there is no analytics.
+# Tag Manager loads only after a visitor accepts analytics cookies (see site.js).
+GTM_ID = "GTM-NFRD9C9C"
+GTM_META = f'  <meta name="gtm" content="{GTM_ID}" />\n' if GTM_ID else ""
 
 # Contact form backend: the Cloudflare Worker in /worker.
 CONTACT_API = "https://forms.btree.uk/contact"
@@ -358,6 +364,9 @@ def contact(r, heading, lead, service=""):
 '''
 
 
+COOKIE_LINK = '        <li><button type="button" class="linkbtn" data-cookie-settings>Cookie settings</button></li>\n' if GTM_ID else ""
+
+
 def footer(r):
     svc = "\n".join(f'        <li><a href="{r}services/{s["slug"]}/">{s["name"]}</a></li>' for s in SERVICES)
     return f'''
@@ -385,7 +394,7 @@ def footer(r):
         <li><a href="{r}#partners">Partners</a></li>
         <li><a href="{r}#contact">Contact us</a></li>
         <li><a href="{r}privacy/">Privacy notice</a></li>
-      </ul></nav>
+{COOKIE_LINK}      </ul></nav>
     </div>
     <div class="footer__base">
       <span>&copy; <span id="year">2026</span> {{btree}}. All rights reserved.</span>
@@ -628,7 +637,29 @@ for s in SERVICES:
     out.write_text(page, encoding="utf-8")
 
 # ---------- Privacy notice ----------
-PRIVACY_UPDATED = "20 November 2026"
+PRIVACY_UPDATED = "24 November 2026" if GTM_ID else "20 November 2026"
+if GTM_ID:
+    PV_VISIT = ("We use cookies for analytics only if you agree to them; see <a href=\"#cookies\">Cookies and analytics</a> below. "
+                "Your choice is remembered in your browser on your device.")
+    PV_LAWFUL = "        <li>To understand how people use the site so we can improve it (Google Analytics). We do this only with your consent, which you can withdraw at any time.</li>\n"
+    PV_GOOGLE = "        <li><b>Google</b>, which provides Google Tag Manager and Google Analytics, only if you accept analytics cookies.</li>\n"
+    PV_COOKIES = '''
+      <h2 id="cookies">Cookies and analytics</h2>
+      <p>With your consent, we use Google Analytics (loaded through Google Tag Manager) to see how many people visit, which pages they read, how they found us and whether they send an enquiry. Google Analytics does not record or store IP addresses, and we do not use it for advertising. Google Analytics keeps this information for 14 months. If you do not accept, Google Tag Manager and Google Analytics are not loaded at all.</p>
+      <table class="legal__table">
+        <thead><tr><th>Cookie</th><th>Set by</th><th>Purpose</th><th>Lasts</th></tr></thead>
+        <tbody>
+          <tr><td><code>_ga</code></td><td>Google Analytics</td><td>Tells visits from the same browser apart</td><td>2 years</td></tr>
+          <tr><td><code>_ga_&lt;ID&gt;</code></td><td>Google Analytics</td><td>Keeps track of the current visit</td><td>2 years</td></tr>
+        </tbody>
+      </table>
+      <p>We also keep your choice (<code>btree-consent</code>) in your browser's local storage, so we do not ask again on every page. It is never sent to us.</p>
+      <p>You can change your mind at any time with <button type="button" class="linkbtn" data-cookie-settings>Cookie settings</button>, also at the bottom of every page. If you withdraw consent, we stop analytics and remove its cookies.</p>
+'''
+else:
+    PV_VISIT = ("We do not use analytics, advertising or tracking cookies. If you close the privacy banner, your browser "
+                "remembers that on your device so it does not appear again; this is never sent to us.")
+    PV_LAWFUL = PV_GOOGLE = PV_COOKIES = ""
 r = "../"
 pv = head(r, "Privacy notice | BTree", "How BTree collects, uses and protects personal information, including enquiries sent through our contact form.", SITE + "privacy/",
           ld=[breadcrumbs(("Privacy notice", SITE + "privacy/"))])
@@ -653,14 +684,14 @@ pv += nav(r) + f'''
       <h2>What we collect</h2>
       <p><b>When you send us an enquiry</b> through the contact form, we collect your name, email address and message, and, if you choose to give them, your company name and phone number. We also record which service you asked about, the page you sent the form from, the date and time, and the country your request came from (worked out by Cloudflare from your connection). We do not store your IP address with your enquiry.</p>
       <p><b>When you email us</b>, we receive your email address, your message and anything else you choose to include.</p>
-      <p><b>When you visit the site</b>, our hosting and security providers process technical information such as your IP address and browser type so they can deliver the pages and protect the site from abuse. We do not use analytics, advertising or tracking cookies. If you close the privacy banner, your browser remembers that on your device so it does not appear again; this is never sent to us.</p>
+      <p><b>When you visit the site</b>, our hosting and security providers process technical information such as your IP address and browser type so they can deliver the pages and protect the site from abuse. {PV_VISIT}</p>
 
       <h2>How we use it, and our lawful basis</h2>
       <ul>
         <li>To reply to your enquiry and, if you ask, to give you a quote, demo or proposal. This is in our legitimate interests in responding to people who contact us, or is a step you have asked us to take before entering into a contract.</li>
         <li>To keep the contact form free from spam and abuse. This is in our legitimate interests in keeping our services secure.</li>
         <li>To keep a record of our communications with you. This is in our legitimate interests in running our business.</li>
-      </ul>
+{PV_LAWFUL}      </ul>
       <p>We will not add you to a marketing list or send you newsletters unless you ask us to, and we never sell your information.</p>
 
       <h2>Who we share it with</h2>
@@ -670,12 +701,13 @@ pv += nav(r) + f'''
         <li><b>Microsoft</b>, which provides our email (Microsoft 365). Enquiries are sent to our team by email.</li>
         <li><b>GitHub</b>, which hosts this website.</li>
         <li><b>Google Fonts</b>, which supplies the typeface used on this site. Your browser requests the font directly from Google, which receives your IP address.</li>
-      </ul>
+{PV_GOOGLE}      </ul>
       <p>We may also share information if the law requires it, or to protect our rights or the safety of others.</p>
 
       <h2>International transfers</h2>
       <p>Some of these providers process information outside the UK, including in the United States. Where they do, the transfer is protected by UK adequacy regulations (such as the UK-US data bridge) or by the International Data Transfer Agreement or Addendum approved by the Information Commissioner.</p>
 
+{PV_COOKIES}
       <h2>How long we keep it</h2>
       <p>We keep enquiries sent through the contact form for 24 months, after which they are deleted automatically. If you become a customer, we keep the information we need for our working relationship for as long as that relationship lasts and for up to 6 years afterwards, to meet our legal and accounting obligations.</p>
 
