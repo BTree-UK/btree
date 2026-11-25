@@ -24,12 +24,10 @@
   <link rel="icon" href="../../assets/btree-icon.svg" type="image/svg+xml" />
   <link rel="icon" href="../../assets/icons/favicon-48.png" type="image/png" sizes="48x48" />
   <link rel="apple-touch-icon" href="../../assets/icons/apple-touch-icon.png" />
-  <script type="application/ld+json">{"@context": "https://schema.org", "@graph": [{"@type": "Organization", "@id": "https://btree.uk/#org", "name": "BTree", "legalName": "BTree Technologies Limited", "url": "https://btree.uk/", "logo": "https://btree.uk/assets/icons/apple-touch-icon.png", "email": "info@btree.uk", "address": {"@type": "PostalAddress", "addressLocality": "Bradford", "addressCountry": "GB"}, "areaServed": "GB", "description": "UK technology company offering software development, AI adoption, networks, cyber security, Microsoft 365, Azure and AWS, and the ShiftFlow workforce platform."}, {"@type": "Service", "name": "AWS cloud", "serviceType": "AWS cloud", "description": "AWS migration, architecture, infrastructure as code, cost optimisation and security from BTree, a UK cloud and technology company.", "url": "https://btree.uk/services/aws/", "provider": {"@id": "https://btree.uk/#org"}, "areaServed": {"@type": "Country", "name": "United Kingdom"}}, {"@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Home", "item": "https://btree.uk/"}, {"@type": "ListItem", "position": 2, "name": "Services", "item": "https://btree.uk/#services"}, {"@type": "ListItem", "position": 3, "name": "AWS cloud", "item": "https://btree.uk/services/aws/"}]}]}</script>
+  <script type="application/ld+json">{"@context": "https://schema.org", "@graph": [{"@type": "Organization", "@id": "https://btree.uk/#org", "name": "BTree", "legalName": "BTree Technologies Limited", "url": "https://btree.uk/", "logo": "https://btree.uk/assets/icons/apple-touch-icon.png", "email": "info@btree.uk", "address": {"@type": "PostalAddress", "addressLocality": "Bradford", "addressCountry": "GB"}, "areaServed": "GB", "description": "UK technology company offering software development, AI adoption, networks, cyber security, Microsoft 365, Azure and AWS, and the ShiftFlow workforce platform."}, {"@type": "Service", "name": "AWS cloud", "serviceType": "AWS cloud", "description": "AWS migration, architecture, infrastructure as code, cost optimisation and security from BTree, a UK cloud and technology company.", "url": "https://btree.uk/services/aws/", "provider": {"@id": "https://btree.uk/#org"}, "areaServed": {"@type": "Country", "name": "United Kingdom"}}, {"@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Home", "item": "https://btree.uk/"}, {"@type": "ListItem", "position": 2, "name": "Services", "item": "https://btree.uk/#services"}, {"@type": "ListItem", "position": 3, "name": "AWS cloud", "item": "https://btree.uk/services/aws/"}]}, {"@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "How can we reduce our AWS bill?", "acceptedAnswer": {"@type": "Answer", "text": "The biggest savings usually come from right-sizing servers, switching off resources nobody uses, moving steady workloads to savings plans and storing data in the right storage class. We review your account and give you a prioritised list."}}, {"@type": "Question", "name": "Is AWS or Azure better for our business?", "acceptedAnswer": {"@type": "Answer", "text": "Both are excellent. If you rely heavily on Microsoft 365 and Windows, Azure often fits more naturally; AWS has a very broad range of services and is a common choice for software products. We work with both and will recommend what suits you."}}, {"@type": "Question", "name": "Can you take over an AWS account that someone else set up?", "acceptedAnswer": {"@type": "Answer", "text": "Yes. We start with an architecture review covering security, reliability and cost, fix anything urgent, then document the environment so it is no longer dependent on one person."}}, {"@type": "Question", "name": "What is infrastructure as code?", "acceptedAnswer": {"@type": "Answer", "text": "It means your servers, networks and settings are defined in files, using tools such as Terraform or CloudFormation, instead of being clicked together by hand. Environments become repeatable, reviewable and easy to rebuild."}}]}]}</script>
   <meta name="gtm" content="GTM-NFRD9C9C" />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="../../assets/css/site.css?v=7e6e2eea" />
+  <link rel="preload" href="../../assets/fonts/inter-latin-wght.woff2" as="font" type="font/woff2" crossorigin />
+  <link rel="stylesheet" href="../../assets/css/site.css?v=9e3460cf" />
   <style>svg.i { fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }</style>
 </head>
 <body>
@@ -77,6 +75,7 @@
         </ul>
       </li>
       <li><a href="../../#industries">Industries</a></li>
+      <li><a href="../../insights/">Insights</a></li>
       <li><a href="../../#about">About</a></li>
     </ul>
     <a class="btn btn--primary nav__cta" href="#contact">Get in touch</a>
@@ -176,6 +175,21 @@
     </div>
   </section>
 
+  <section class="section section--soft" id="faq">
+    <div class="wrap">
+      <div class="section-head center reveal">
+        <span class="eyebrow">FAQ</span>
+        <h2>AWS cloud: common questions</h2>
+      </div>
+      <div class="faq reveal">
+        <details class="faq__item"><summary>How can we reduce our AWS bill?</summary><div class="faq__a"><p>The biggest savings usually come from right-sizing servers, switching off resources nobody uses, moving steady workloads to savings plans and storing data in the right storage class. We review your account and give you a prioritised list.</p></div></details>
+        <details class="faq__item"><summary>Is AWS or Azure better for our business?</summary><div class="faq__a"><p>Both are excellent. If you rely heavily on Microsoft 365 and Windows, Azure often fits more naturally; AWS has a very broad range of services and is a common choice for software products. We work with both and will recommend what suits you.</p></div></details>
+        <details class="faq__item"><summary>Can you take over an AWS account that someone else set up?</summary><div class="faq__a"><p>Yes. We start with an architecture review covering security, reliability and cost, fix anything urgent, then document the environment so it is no longer dependent on one person.</p></div></details>
+        <details class="faq__item"><summary>What is infrastructure as code?</summary><div class="faq__a"><p>It means your servers, networks and settings are defined in files, using tools such as Terraform or CloudFormation, instead of being clicked together by hand. Environments become repeatable, reviewable and easy to rebuild.</p></div></details>
+      </div>
+    </div>
+  </section>
+
   <!-- Contact -->
   <section class="section" id="contact">
     <div class="wrap">
@@ -247,6 +261,7 @@
         <li><a href="../../#about">About</a></li>
         <li><a href="../../#industries">Industries</a></li>
         <li><a href="../../#partners">Partners</a></li>
+        <li><a href="../../insights/">Insights</a></li>
         <li><a href="../../#contact">Contact us</a></li>
         <li><a href="../../privacy/">Privacy notice</a></li>
         <li><button type="button" class="linkbtn" data-cookie-settings>Cookie settings</button></li>

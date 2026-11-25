@@ -13,6 +13,9 @@ COMPANY = {
 COMPANY_LINE = (f'{COMPANY["name"]}. Registered in England and Wales, company number {COMPANY["number"]}. '
                 f'{COMPANY["location"]}.')
 
+# Editable copy for FAQs, ShiftFlow industry pages and Insights articles.
+exec((pathlib.Path(__file__).parent / "content.py").read_text(encoding="utf-8"))
+
 # Cache-busting: pages load site.css?v=<hash> and site.js?v=<hash>, so browsers fetch
 # the new file as soon as its contents change instead of using a stale cached copy.
 import hashlib
@@ -241,7 +244,12 @@ def robots_noindex(r):
 {GTM_META}'''
 
 
-def head(r, title, desc, url, ld=(), noindex=False):
+def font_preload(r):
+    """Inter is served from this site (assets/fonts), so no request goes to Google Fonts."""
+    return f'  <link rel="preload" href="{r}assets/fonts/inter-latin-wght.woff2" as="font" type="font/woff2" crossorigin />\n'
+
+
+def head(r, title, desc, url, ld=(), noindex=False, image="btree.png", image_alt="BTree", icon="btree"):
     return f'''<!DOCTYPE html>
 <html lang="en-GB">
 <head>
@@ -250,10 +258,7 @@ def head(r, title, desc, url, ld=(), noindex=False):
   <title>{title}</title>
   <meta name="description" content="{_esc(desc)}" />
   <meta name="theme-color" content="#070f2b" />
-{robots_noindex(r) if noindex else seo_tags(r, title, desc, url, ld=ld)}  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="{r}assets/css/site.css?v={CSS_V}" />
+{robots_noindex(r) if noindex else seo_tags(r, title, desc, url, image=image, image_alt=image_alt, ld=ld, icon=icon)}{font_preload(r)}  <link rel="stylesheet" href="{r}assets/css/site.css?v={CSS_V}" />
   <style>svg.i {{ fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }}</style>
 {REDIRECT if r == "" else ""}</head>
 <body>
@@ -284,6 +289,7 @@ def nav(r):
         </ul>
       </li>
       <li><a href="{r}#industries">Industries</a></li>
+      <li><a href="{r}insights/">Insights</a></li>
       <li><a href="{r}#about">About</a></li>
     </ul>
     <a class="btn btn--primary nav__cta" href="#contact">Get in touch</a>
@@ -346,7 +352,7 @@ def contact_form(r, service="", button="Send message"):
         <script src="https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit" async defer></script>'''
 
 
-def contact(r, heading, lead, service=""):
+def contact(r, heading, lead, service="", button="Send message"):
     return f'''
   <!-- Contact -->
   <section class="section" id="contact">
@@ -357,7 +363,7 @@ def contact(r, heading, lead, service=""):
           <h2>{heading}</h2>
           <p class="lead">{lead}</p>
         </div>
-        {contact_form(r, service)}
+        {contact_form(r, service, button)}
       </div>
     </div>
   </section>
@@ -392,6 +398,7 @@ def footer(r):
         <li><a href="{r}#about">About</a></li>
         <li><a href="{r}#industries">Industries</a></li>
         <li><a href="{r}#partners">Partners</a></li>
+        <li><a href="{r}insights/">Insights</a></li>
         <li><a href="{r}#contact">Contact us</a></li>
         <li><a href="{r}privacy/">Privacy notice</a></li>
 {COOKIE_LINK}      </ul></nav>
@@ -419,6 +426,35 @@ def svc_card(r, s, compact=False):
         </a>'''
 
 
+def _plain(text):
+    import html as _h
+    return _h.unescape(re.sub(r"<[^>]+>", "", text))
+
+
+def faq_ld(items):
+    """FAQPage structured data from (question, answer HTML) pairs."""
+    return {"@type": "FAQPage", "mainEntity": [
+        {"@type": "Question", "name": q, "acceptedAnswer": {"@type": "Answer", "text": _plain(a)}} for q, a in items]}
+
+
+def faq_html(items, heading="Frequently asked questions", soft=True):
+    rows = "\n".join(f'        <details class="faq__item"><summary>{q}</summary><div class="faq__a"><p>{a}</p></div></details>'
+                     for q, a in items)
+    return f'''
+  <section class="section{' section--soft' if soft else ''}" id="faq">
+    <div class="wrap">
+      <div class="section-head center reveal">
+        <span class="eyebrow">FAQ</span>
+        <h2>{heading}</h2>
+      </div>
+      <div class="faq reveal">
+{rows}
+      </div>
+    </div>
+  </section>
+'''
+
+
 # ---------- Home ----------
 def term_lines(lines, start=0):
     return "".join(f'<span class="ln" style="--d:{i + start}">{line or "&nbsp;"}</span>' for i, line in enumerate(lines))
@@ -440,7 +476,7 @@ HERO_TERM = term_lines([
 r = ""
 home = head(r, "BTree | Software, AI, networks, cyber security and cloud for UK businesses",
             "BTree is a UK technology company offering software development, AI adoption, networks and firewalls, cyber security, Microsoft 365, Azure and AWS, and products like ShiftFlow.",
-            SITE, ld=[{"@type": "WebSite", "@id": SITE + "#website", "url": SITE, "name": "BTree", "publisher": {"@id": ORG_ID}}])
+            SITE, ld=[{"@type": "WebSite", "@id": SITE + "#website", "url": SITE, "name": "BTree", "publisher": {"@id": ORG_ID}}, faq_ld(HOME_FAQ)])
 home += nav(r)
 home += f'''
 <main id="top">
@@ -555,6 +591,7 @@ home += f'''
     </div>
   </section>
 '''
+home += faq_html(HOME_FAQ)
 home += contact(r, "Let's talk about your technology",
                 "Whether you need a new system built, a network sorted or a second opinion on security, we are happy to help.")
 home += footer(r)
@@ -573,7 +610,7 @@ for s in SERVICES:
     page = head(r, s["title"], s["desc"], url, ld=[
         {"@type": "Service", "name": s["name"], "serviceType": s["name"], "description": s["desc"], "url": url,
          "provider": {"@id": ORG_ID}, "areaServed": {"@type": "Country", "name": "United Kingdom"}},
-        breadcrumbs(("Services", SITE + "#services"), (s["name"], url))]) + nav(r)
+        breadcrumbs(("Services", SITE + "#services"), (s["name"], url)), faq_ld(SERVICE_FAQ[s["slug"]])]) + nav(r)
     others = [o for o in SERVICES if o is not s]
     page += f'''
 <main id="top">
@@ -629,6 +666,7 @@ for s in SERVICES:
     </div>
   </section>
 '''
+    page += faq_html(SERVICE_FAQ[s["slug"]], f"{s['name']}: common questions")
     page += contact(r, f"Talk to us about {s['name'].lower() if not s['name'].startswith(('Microsoft', 'AWS', 'AI')) else s['name']}",
                     "Tell us where you are today and where you want to be. We will suggest a practical next step, with no obligation.", s["name"])
     page += footer(r)
@@ -637,7 +675,7 @@ for s in SERVICES:
     out.write_text(page, encoding="utf-8")
 
 # ---------- Privacy notice ----------
-PRIVACY_UPDATED = "24 November 2026" if GTM_ID else "20 November 2026"
+PRIVACY_UPDATED = "24 November 2026"
 if GTM_ID:
     PV_VISIT = ("We use cookies for analytics only if you agree to them; see <a href=\"#cookies\">Cookies and analytics</a> below. "
                 "Your choice is remembered in your browser on your device.")
@@ -700,7 +738,6 @@ pv += nav(r) + f'''
         <li><b>Cloudflare</b>, which runs our contact form service and stores enquiries, and provides Turnstile, the check that stops automated spam.</li>
         <li><b>Microsoft</b>, which provides our email (Microsoft 365). Enquiries are sent to our team by email.</li>
         <li><b>GitHub</b>, which hosts this website.</li>
-        <li><b>Google Fonts</b>, which supplies the typeface used on this site. Your browser requests the font directly from Google, which receives your IP address.</li>
 {PV_GOOGLE}      </ul>
       <p>We may also share information if the law requires it, or to protect our rights or the safety of others.</p>
 
@@ -953,25 +990,29 @@ SF_INDUSTRIES = [
 ]
 
 
-def industries_html():
+def ind_card(item, link=True):
+    """One industry card with its 24-hour shift map (live 'on now' count from site.js)."""
+    name, icon, colour, desc, shifts = item
+
     def hh(h):
         return f"{int(h) % 24:02d}:00"
-    cards = []
-    for name, icon, colour, desc, shifts in SF_INDUSTRIES:
-        lanes = []
-        for i, (label, s, e) in enumerate(shifts):
-            title = f"{label}, {hh(s)} to {hh(e)}"
-            segs = [(s, min(e, 24))]
-            if e > 24:
-                segs.append((0, e - 24))
-            longest = max(range(len(segs)), key=lambda k: segs[k][1] - segs[k][0])  # label the bigger piece
-            segs = [(a, b, k == longest) for k, (a, b) in enumerate(segs)]
-            bars = "".join(
-                f'<span class="shiftmap__bar" style="--s:{a};--e:{b};--i:{i}" title="{title}">{label if first else ""}</span>'
-                for a, b, first in segs)
-            lanes.append(f'<div class="shiftmap__lane">{bars}</div>')
-        data = ",".join(f"{s}-{e}" for _, s, e in shifts)
-        cards.append(f'''        <article class="ind2 reveal" style="--c:{colour}" data-shifts="{data}">
+    lanes = []
+    for i, (label, s, e) in enumerate(shifts):
+        title = f"{label}, {hh(s)} to {hh(e)}"
+        segs = [(s, min(e, 24))]
+        if e > 24:
+            segs.append((0, e - 24))
+        longest = max(range(len(segs)), key=lambda k: segs[k][1] - segs[k][0])  # label the bigger piece
+        segs = [(a, b, k == longest) for k, (a, b) in enumerate(segs)]
+        bars = "".join(
+            f'<span class="shiftmap__bar" style="--s:{a};--e:{b};--i:{i}" title="{title}">{label if first else ""}</span>'
+            for a, b, first in segs)
+        lanes.append(f'<div class="shiftmap__lane">{bars}</div>')
+    data = ",".join(f"{s}-{e}" for _, s, e in shifts)
+    page = next((pg for pg in SF_PAGES if pg["match"] == name), None)
+    more = (f'\n          <a class="ind2__more" href="{page["slug"]}/">ShiftFlow for {page["short"].lower()} '
+            f'<svg class="i"><use href="#i-arrow"/></svg></a>') if link and page else ""
+    return f'''        <article class="ind2 reveal" style="--c:{colour}" data-shifts="{data}">
           <div class="ind2__top">
             <span class="ind2__ico"><svg class="i" viewBox="0 0 24 24" aria-hidden="true">{SF_ICONS[icon]}</svg></span>
             <h3>{name}</h3>
@@ -982,8 +1023,12 @@ def industries_html():
             <span class="shiftmap__now"></span>
             <div class="shiftmap__ticks"><span>00</span><span>06</span><span>12</span><span>18</span><span>24</span></div>
           </div>
-          <p class="ind2__live"><span class="ind2__dot"></span><span class="ind2__count">Typical shifts across a day</span></p>
-        </article>''')
+          <p class="ind2__live"><span class="ind2__dot"></span><span class="ind2__count">Typical shifts across a day</span></p>{more}
+        </article>'''
+
+
+def industries_html():
+    cards = [ind_card(item) for item in SF_INDUSTRIES]
     return '''<section class="section" id="industries">
     <div class="wrap">
       <div class="section-head center reveal">
@@ -1007,16 +1052,22 @@ start, end = "<!-- contact-form -->", "<!-- /contact-form -->"
 a, b = sf_text.index(start) + len(start), sf_text.index(end)
 sf_text = sf_text[:a] + "\n        " + contact_form("../", "ShiftFlow", "Book a demo") + "\n        " + sf_text[b:]
 sf_text = re.sub(r'assets/css/site\.css(\?v=\w+)?"', f'assets/css/site.css?v={CSS_V}"', sf_text)
+sf_text = re.sub(r'  <link rel="preconnect" href="https://fonts\.googleapis\.com" />\n'
+                 r'  <link rel="preconnect" href="https://fonts\.gstatic\.com" crossorigin />\n'
+                 r'  <link href="https://fonts\.googleapis\.com/css2[^"]*" rel="stylesheet" />\n', font_preload("../"), sf_text)
+start, end = "<!-- faq -->", "<!-- /faq -->"
+a, b = sf_text.index(start) + len(start), sf_text.index(end)
+sf_text = sf_text[:a] + faq_html(SHIFTFLOW_FAQ, "ShiftFlow: common questions") + "  " + sf_text[b:]
 SF_URL = SITE + "shiftflow/"
 SF_DESC = "Rotas, time and attendance and HR for UK shift-based teams, in one flow."
 start, end = "<!-- seo -->", "<!-- /seo -->"
 a, b = sf_text.index(start) + len(start), sf_text.index(end)
 sf_text = sf_text[:a] + "\n" + seo_tags("../", "ShiftFlow by BTree", SF_DESC, SF_URL, image="shiftflow.png",
     image_alt="ShiftFlow: rotas, clock-ins and HR in one flow", icon="shiftflow", ld=[
-        {"@type": "SoftwareApplication", "name": "ShiftFlow", "url": SF_URL, "description": SF_DESC,
+        {"@type": "SoftwareApplication", "@id": SF_URL + "#app", "name": "ShiftFlow", "url": SF_URL, "description": SF_DESC,
          "applicationCategory": "BusinessApplication", "operatingSystem": "Web, iOS, Android",
          "image": SITE + "assets/og/shiftflow.png", "publisher": {"@id": ORG_ID}},
-        breadcrumbs(("ShiftFlow", SF_URL))]) + "  " + sf_text[b:]
+        breadcrumbs(("ShiftFlow", SF_URL)), faq_ld(SHIFTFLOW_FAQ)]) + "  " + sf_text[b:]
 sf_text = re.sub(r'assets/js/site\.js(\?v=\w+)?"', f'assets/js/site.js?v={JS_V}"', sf_text)
 sf_text = re.sub(r'(<span>&copy; <span id="year">\d{4}</span> \{btree\}\. All rights reserved\.)(?: <span class="footer__legal">[^<]*</span>)?(</span>)',
                  lambda m: f'{m.group(1)} <span class="footer__legal">{COMPANY_LINE}</span>{m.group(2)}', sf_text)
@@ -1032,6 +1083,189 @@ start, end = "<!-- industries -->", "<!-- /industries -->"
 a, b = sf_text.index(start) + len(start), sf_text.index(end)
 sf_text = sf_text[:a] + "\n  " + industries_html() + "\n  " + sf_text[b:]
 sf_path.write_text(sf_text, encoding="utf-8", newline="\r\n")
+
+# ---------- ShiftFlow industry pages ----------
+SF_IMG = dict(image="shiftflow.png", image_alt="ShiftFlow: rotas, clock-ins and HR in one flow", icon="shiftflow")
+for pg in SF_PAGES:
+    r = "../../"
+    url = f"{SITE}shiftflow/{pg['slug']}/"
+    item = next(i for i in SF_INDUSTRIES if i[0] == pg["match"])
+    short = pg["short"].lower()
+    page = head(r, pg["title"], pg["desc"], url, ld=[
+        {"@type": "WebPage", "@id": url, "url": url, "name": pg["title"], "description": pg["desc"],
+         "about": {"@id": SF_URL + "#app"}, "publisher": {"@id": ORG_ID}},
+        breadcrumbs(("ShiftFlow", SF_URL), (pg["short"], url)), faq_ld(pg["faq"])], **SF_IMG) + nav(r)
+    chips = "\n".join(f'        <a href="../{o["slug"]}/">ShiftFlow for {o["short"].lower()}</a>' for o in SF_PAGES if o is not pg)
+    page += f'''
+<main id="top">
+
+  <section class="hero hero--page">
+    <div class="wrap">
+      <div class="hero__copy">
+        <nav class="crumbs" aria-label="Breadcrumb"><a href="{r}">Home</a> <span>/</span> <a href="../">ShiftFlow</a> <span>/</span> {pg["short"]}</nav>
+        <span class="eyebrow">ShiftFlow for {short}</span>
+        <h1>{pg["h1"]}</h1>
+        <p class="hero__sub">{pg["sub"]}</p>
+        <div class="hero__actions">
+          <a class="btn btn--primary" href="#contact">Book a demo <svg class="i"><use href="#i-arrow"/></svg></a>
+          <a class="btn btn--ghost" href="../">Explore ShiftFlow</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="how">
+    <div class="wrap">
+      <div class="section-head center reveal">
+        <span class="eyebrow">How ShiftFlow helps</span>
+        <h2>Made for the way {short} teams work</h2>
+      </div>
+      <div class="industries">
+{chr(10).join(f'        <div class="ind reveal"><h3>{t}</h3><p>{d}</p></div>' for t, d in pg["points"])}
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--soft">
+    <div class="wrap">
+      <div class="section-head center reveal">
+        <span class="eyebrow">A typical day</span>
+        <h2>Shifts around the clock</h2>
+        <p class="lead">A typical pattern on a 24-hour clock. Yours will look different, and ShiftFlow handles that too.</p>
+        <p class="ind2__clock" hidden><span class="ind2__dot"></span><span>It is <b class="ind2__time">--:--</b> in the UK. Here is who would be on shift right now.</span></p>
+      </div>
+      <div class="industries industries--live industries--one">
+{ind_card(item, link=False)}
+      </div>
+    </div>
+  </section>
+{faq_html(pg["faq"], f"ShiftFlow for {short}: common questions", soft=False)}
+  <section class="section section--soft">
+    <div class="wrap">
+      <div class="section-head center reveal">
+        <span class="eyebrow">Other industries</span>
+        <h2>ShiftFlow works for every team that works in shifts</h2>
+      </div>
+      <div class="linkchips reveal">
+{chips}
+      </div>
+    </div>
+  </section>
+'''
+    page += contact(r, f"See ShiftFlow for your {short} team",
+                    "Book a demo and we will show you how ShiftFlow fits the way your team works.", "ShiftFlow", "Book a demo")
+    page += footer(r)
+    out = ROOT / "shiftflow" / pg["slug"] / "index.html"
+    out.parent.mkdir(parents=True, exist_ok=True)
+    out.write_text(page, encoding="utf-8")
+
+# ---------- Insights ----------
+import datetime as _dt
+
+
+def nice_date(iso):
+    d = _dt.date.fromisoformat(iso)
+    return f"{d.day} {d:%B %Y}"
+
+
+r = "../"
+INS_URL = SITE + "insights/"
+INS_DESC = "Practical guides from BTree on cyber security, Microsoft 365 and running a shift-based business in the UK."
+page = head(r, "Insights: practical technology guides | BTree", INS_DESC, INS_URL, ld=[
+    {"@type": "CollectionPage", "@id": INS_URL, "url": INS_URL, "name": "Insights", "description": INS_DESC,
+     "publisher": {"@id": ORG_ID},
+     "hasPart": [{"@type": "Article", "headline": x["title"], "url": f"{INS_URL}{x['slug']}/"} for x in ARTICLES]},
+    breadcrumbs(("Insights", INS_URL))]) + nav(r)
+cards = "\n".join(f'''        <a class="svc reveal" href="{x["slug"]}/">
+          <span class="eyebrow">{x["topic"]}</span>
+          <h3>{x["title"]}</h3>
+          <p>{x["desc"]}</p>
+          <span class="svc__more">Read the guide <svg class="i"><use href="#i-arrow"/></svg></span>
+        </a>''' for x in ARTICLES)
+page += f'''
+<main id="top">
+  <section class="hero hero--page">
+    <div class="wrap">
+      <div class="hero__copy">
+        <nav class="crumbs" aria-label="Breadcrumb"><a href="{r}">Home</a> <span>/</span> Insights</nav>
+        <span class="eyebrow">Insights</span>
+        <h1>Practical guides, <span class="grad">in plain English.</span></h1>
+        <p class="hero__sub">{INS_DESC}</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap">
+      <div class="svc-grid">
+{cards}
+      </div>
+    </div>
+  </section>
+'''
+page += contact(r, "Have a question we have not answered?", "Ask us. If it is useful to others too, it may become our next guide.")
+page += footer(r)
+(ROOT / "insights").mkdir(exist_ok=True)
+(ROOT / "insights" / "index.html").write_text(page, encoding="utf-8")
+
+SERVICE_NAMES = [x["name"] for x in SERVICES]
+for x in ARTICLES:
+    r = "../../"
+    url = f"{INS_URL}{x['slug']}/"
+    page = head(r, f"{x['title']} | BTree", x["desc"], url, ld=[
+        {"@type": "Article", "@id": url + "#article", "headline": x["title"], "description": x["desc"], "url": url,
+         "mainEntityOfPage": url, "datePublished": x["date"], "dateModified": x.get("updated", x["date"]),
+         "inLanguage": "en-GB", "image": SITE + "assets/og/btree.png",
+         "author": {"@id": ORG_ID}, "publisher": {"@id": ORG_ID}},
+        breadcrumbs(("Insights", INS_URL), (x["title"], url))]) + nav(r)
+    rel_name, rel_path = x["related"]
+    page += f'''
+<main id="top">
+  <section class="hero hero--page">
+    <div class="wrap">
+      <div class="hero__copy">
+        <nav class="crumbs" aria-label="Breadcrumb"><a href="{r}">Home</a> <span>/</span> <a href="../">Insights</a> <span>/</span> {x["topic"]}</nav>
+        <span class="eyebrow">{x["topic"]}</span>
+        <h1>{x["title"]}</h1>
+        <p class="hero__sub">{x["desc"]}</p>
+        <p class="article__meta">By BTree &middot; <time datetime="{x["date"]}">{nice_date(x["date"])}</time> &middot; {x["minutes"]} minute read</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap">
+      <article class="legal article">
+{x["body"].strip()}
+        <aside class="related">
+          <div><b>Need a hand with this?</b><span>We help UK businesses with exactly this every day.</span></div>
+          <a class="btn btn--primary" href="{r}{rel_path}">{rel_name} <svg class="i"><use href="#i-arrow"/></svg></a>
+        </aside>
+      </article>
+    </div>
+  </section>
+'''
+    page += contact(r, "Talk to us", "Tell us where you are today and we will suggest a practical next step, with no obligation.",
+                    rel_name if rel_name in SERVICE_NAMES or rel_name == "ShiftFlow" else "")
+    page += footer(r)
+    out = ROOT / "insights" / x["slug"] / "index.html"
+    out.parent.mkdir(parents=True, exist_ok=True)
+    out.write_text(page, encoding="utf-8")
+
+# ---------- llms.txt: a plain summary of the site for AI assistants ----------
+llms = [f"# BTree", "",
+        f"> BTree ({COMPANY['name']}) is a UK technology company based in Bradford. It builds software, helps businesses "
+        f"adopt AI, runs secure networks and cloud platforms (Microsoft 365, Azure and AWS), and makes ShiftFlow, a "
+        f"workforce platform for shift-based businesses.", "",
+        f"Company number {COMPANY['number']}, registered in England and Wales. Contact: info@btree.uk.", "",
+        "## Services", ""]
+llms += [f"- [{x['name']}]({SITE}services/{x['slug']}/): {x['short']}" for x in SERVICES]
+llms += ["", "## ShiftFlow", "", f"- [ShiftFlow]({SF_URL}): {SF_DESC} Rotas, clock-ins, timesheets, holiday, documents "
+         "and HR, with UK working time rules checked before a rota is published."]
+llms += [f"- [ShiftFlow for {x['short'].lower()}]({SF_URL}{x['slug']}/): {x['desc']}" for x in SF_PAGES]
+llms += ["", "## Insights", ""] + [f"- [{x['title']}]({INS_URL}{x['slug']}/): {x['desc']}" for x in ARTICLES]
+llms += ["", "## Optional", "", f"- [Privacy notice]({SITE}privacy/)", ""]
+(ROOT / "llms.txt").write_text("\n".join(llms), encoding="utf-8")
 
 # ---------- 404 ----------
 # GitHub Pages serves this for any missing URL, at any depth, so every link is root-absolute.
@@ -1100,6 +1334,9 @@ def lastmod(path):
 
 pages = [(SITE, "index.html"), (SITE + "shiftflow/", "shiftflow/index.html")] + \
         [(f"{SITE}services/{s['slug']}/", f"services/{s['slug']}/index.html") for s in SERVICES] + \
+        [(f"{SF_URL}{x['slug']}/", f"shiftflow/{x['slug']}/index.html") for x in SF_PAGES] + \
+        [(INS_URL, "insights/index.html")] + \
+        [(f"{INS_URL}{x['slug']}/", f"insights/{x['slug']}/index.html") for x in ARTICLES] + \
         [(SITE + "privacy/", "privacy/index.html")]
 urls = [u for u, _ in pages]
 sm = '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'

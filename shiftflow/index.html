@@ -25,13 +25,11 @@
   <link rel="icon" href="../assets/favicon.svg" type="image/svg+xml" />
   <link rel="icon" href="../assets/icons/shiftflow-48.png" type="image/png" sizes="48x48" />
   <link rel="apple-touch-icon" href="../assets/icons/shiftflow-touch-icon.png" />
-  <script type="application/ld+json">{"@context": "https://schema.org", "@graph": [{"@type": "Organization", "@id": "https://btree.uk/#org", "name": "BTree", "legalName": "BTree Technologies Limited", "url": "https://btree.uk/", "logo": "https://btree.uk/assets/icons/apple-touch-icon.png", "email": "info@btree.uk", "address": {"@type": "PostalAddress", "addressLocality": "Bradford", "addressCountry": "GB"}, "areaServed": "GB", "description": "UK technology company offering software development, AI adoption, networks, cyber security, Microsoft 365, Azure and AWS, and the ShiftFlow workforce platform."}, {"@type": "SoftwareApplication", "name": "ShiftFlow", "url": "https://btree.uk/shiftflow/", "description": "Rotas, time and attendance and HR for UK shift-based teams, in one flow.", "applicationCategory": "BusinessApplication", "operatingSystem": "Web, iOS, Android", "image": "https://btree.uk/assets/og/shiftflow.png", "publisher": {"@id": "https://btree.uk/#org"}}, {"@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Home", "item": "https://btree.uk/"}, {"@type": "ListItem", "position": 2, "name": "ShiftFlow", "item": "https://btree.uk/shiftflow/"}]}]}</script>
+  <script type="application/ld+json">{"@context": "https://schema.org", "@graph": [{"@type": "Organization", "@id": "https://btree.uk/#org", "name": "BTree", "legalName": "BTree Technologies Limited", "url": "https://btree.uk/", "logo": "https://btree.uk/assets/icons/apple-touch-icon.png", "email": "info@btree.uk", "address": {"@type": "PostalAddress", "addressLocality": "Bradford", "addressCountry": "GB"}, "areaServed": "GB", "description": "UK technology company offering software development, AI adoption, networks, cyber security, Microsoft 365, Azure and AWS, and the ShiftFlow workforce platform."}, {"@type": "SoftwareApplication", "@id": "https://btree.uk/shiftflow/#app", "name": "ShiftFlow", "url": "https://btree.uk/shiftflow/", "description": "Rotas, time and attendance and HR for UK shift-based teams, in one flow.", "applicationCategory": "BusinessApplication", "operatingSystem": "Web, iOS, Android", "image": "https://btree.uk/assets/og/shiftflow.png", "publisher": {"@id": "https://btree.uk/#org"}}, {"@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Home", "item": "https://btree.uk/"}, {"@type": "ListItem", "position": 2, "name": "ShiftFlow", "item": "https://btree.uk/shiftflow/"}]}, {"@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "What is ShiftFlow?", "acceptedAnswer": {"@type": "Answer", "text": "ShiftFlow is a workforce platform for UK businesses that run on shifts. It brings rotas, clock-ins, timesheets, holiday, documents and HR records together in one place, so the hours on the rota, the punches at the door and the figures sent to payroll always agree."}}, {"@type": "Question", "name": "Does ShiftFlow check UK working time rules?", "acceptedAnswer": {"@type": "Answer", "text": "Yes. Every rota is checked before it is published, including 11 hours rest between shifts, the 48-hour average week, minimum breaks, limits for under-18s and visa weekly hour caps. Errors block publishing and warnings are shown, and each rule can be tuned for each site."}}, {"@type": "Question", "name": "What devices does ShiftFlow work on?", "acceptedAnswer": {"@type": "Answer", "text": "Managers use ShiftFlow in a web browser. Staff clock in on an iPad or Android tablet running the kiosk app, and use the employee app on iOS or Android to see shifts, book holiday and swap shifts."}}, {"@type": "Question", "name": "What happens if the internet goes down?", "acceptedAnswer": {"@type": "Answer", "text": "The kiosk keeps working. Clock-ins are stored on the tablet and sent as soon as the connection returns."}}, {"@type": "Question", "name": "Can ShiftFlow handle several sites?", "acceptedAnswer": {"@type": "Answer", "text": "Yes. Staff can have a home site and other sites they work at, double bookings across sites are blocked, open shifts can be offered across sites, and settings can be set once for the business and changed for each site."}}, {"@type": "Question", "name": "Does ShiftFlow work with our payroll?", "acceptedAnswer": {"@type": "Answer", "text": "Approved hours go into a pay run export that you can give to your payroll provider or import into your payroll software."}}, {"@type": "Question", "name": "Can staff sign in with their Microsoft account?", "acceptedAnswer": {"@type": "Answer", "text": "Yes. ShiftFlow supports single sign-on with Microsoft Entra ID or any OIDC provider, as well as authenticator app multi-factor authentication."}}, {"@type": "Question", "name": "How much does ShiftFlow cost?", "acceptedAnswer": {"@type": "Answer", "text": "Pricing depends on the size of your team and the parts you use. Book a demo and we will show you ShiftFlow and give you a quote."}}]}]}</script>
   <meta name="gtm" content="GTM-NFRD9C9C" />
   <!-- /seo -->
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="../assets/css/site.css?v=7e6e2eea" />
+  <link rel="preload" href="../assets/fonts/inter-latin-wght.woff2" as="font" type="font/woff2" crossorigin />
+  <link rel="stylesheet" href="../assets/css/site.css?v=9e3460cf" />
   <style>svg.i { fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }</style>
 </head>
 <body>
@@ -170,6 +168,7 @@
             <div class="shiftmap__ticks"><span>00</span><span>06</span><span>12</span><span>18</span><span>24</span></div>
           </div>
           <p class="ind2__live"><span class="ind2__dot"></span><span class="ind2__count">Typical shifts across a day</span></p>
+          <a class="ind2__more" href="hospitality/">ShiftFlow for hospitality <svg class="i"><use href="#i-arrow"/></svg></a>
         </article>
         <article class="ind2 reveal" style="--c:#ec4899" data-shifts="7-15,10-18,14-22">
           <div class="ind2__top">
@@ -183,6 +182,7 @@
             <div class="shiftmap__ticks"><span>00</span><span>06</span><span>12</span><span>18</span><span>24</span></div>
           </div>
           <p class="ind2__live"><span class="ind2__dot"></span><span class="ind2__count">Typical shifts across a day</span></p>
+          <a class="ind2__more" href="retail/">ShiftFlow for retail <svg class="i"><use href="#i-arrow"/></svg></a>
         </article>
         <article class="ind2 reveal" style="--c:#ef4444" data-shifts="7-15,15-23,23-31">
           <div class="ind2__top">
@@ -196,6 +196,7 @@
             <div class="shiftmap__ticks"><span>00</span><span>06</span><span>12</span><span>18</span><span>24</span></div>
           </div>
           <p class="ind2__live"><span class="ind2__dot"></span><span class="ind2__count">Typical shifts across a day</span></p>
+          <a class="ind2__more" href="care/">ShiftFlow for care <svg class="i"><use href="#i-arrow"/></svg></a>
         </article>
         <article class="ind2 reveal" style="--c:#0ea5e9" data-shifts="6-14,14-22,22-30">
           <div class="ind2__top">
@@ -209,6 +210,7 @@
             <div class="shiftmap__ticks"><span>00</span><span>06</span><span>12</span><span>18</span><span>24</span></div>
           </div>
           <p class="ind2__live"><span class="ind2__dot"></span><span class="ind2__count">Typical shifts across a day</span></p>
+          <a class="ind2__more" href="warehousing-logistics/">ShiftFlow for warehousing <svg class="i"><use href="#i-arrow"/></svg></a>
         </article>
         <article class="ind2 reveal" style="--c:#8b5cf6" data-shifts="6-18,18-30">
           <div class="ind2__top">
@@ -222,6 +224,7 @@
             <div class="shiftmap__ticks"><span>00</span><span>06</span><span>12</span><span>18</span><span>24</span></div>
           </div>
           <p class="ind2__live"><span class="ind2__dot"></span><span class="ind2__count">Typical shifts across a day</span></p>
+          <a class="ind2__more" href="manufacturing/">ShiftFlow for manufacturing <svg class="i"><use href="#i-arrow"/></svg></a>
         </article>
         <article class="ind2 reveal" style="--c:#10b981" data-shifts="5-9,18-22,19-31">
           <div class="ind2__top">
@@ -235,6 +238,7 @@
             <div class="shiftmap__ticks"><span>00</span><span>06</span><span>12</span><span>18</span><span>24</span></div>
           </div>
           <p class="ind2__live"><span class="ind2__dot"></span><span class="ind2__count">Typical shifts across a day</span></p>
+          <a class="ind2__more" href="facilities-cleaning-security/">ShiftFlow for facilities <svg class="i"><use href="#i-arrow"/></svg></a>
         </article>
       </div>
       <p class="ind2__note">Typical shift patterns on a 24-hour clock. Yours will look different, and ShiftFlow handles that too.</p>
@@ -855,6 +859,28 @@
   </section>
   <!-- /partners -->
 
+  <!-- FAQ -->
+  <!-- faq -->
+  <section class="section section--soft" id="faq">
+    <div class="wrap">
+      <div class="section-head center reveal">
+        <span class="eyebrow">FAQ</span>
+        <h2>ShiftFlow: common questions</h2>
+      </div>
+      <div class="faq reveal">
+        <details class="faq__item"><summary>What is ShiftFlow?</summary><div class="faq__a"><p>ShiftFlow is a workforce platform for UK businesses that run on shifts. It brings rotas, clock-ins, timesheets, holiday, documents and HR records together in one place, so the hours on the rota, the punches at the door and the figures sent to payroll always agree.</p></div></details>
+        <details class="faq__item"><summary>Does ShiftFlow check UK working time rules?</summary><div class="faq__a"><p>Yes. Every rota is checked before it is published, including 11 hours rest between shifts, the 48-hour average week, minimum breaks, limits for under-18s and visa weekly hour caps. Errors block publishing and warnings are shown, and each rule can be tuned for each site.</p></div></details>
+        <details class="faq__item"><summary>What devices does ShiftFlow work on?</summary><div class="faq__a"><p>Managers use ShiftFlow in a web browser. Staff clock in on an iPad or Android tablet running the kiosk app, and use the employee app on iOS or Android to see shifts, book holiday and swap shifts.</p></div></details>
+        <details class="faq__item"><summary>What happens if the internet goes down?</summary><div class="faq__a"><p>The kiosk keeps working. Clock-ins are stored on the tablet and sent as soon as the connection returns.</p></div></details>
+        <details class="faq__item"><summary>Can ShiftFlow handle several sites?</summary><div class="faq__a"><p>Yes. Staff can have a home site and other sites they work at, double bookings across sites are blocked, open shifts can be offered across sites, and settings can be set once for the business and changed for each site.</p></div></details>
+        <details class="faq__item"><summary>Does ShiftFlow work with our payroll?</summary><div class="faq__a"><p>Approved hours go into a pay run export that you can give to your payroll provider or import into your payroll software.</p></div></details>
+        <details class="faq__item"><summary>Can staff sign in with their Microsoft account?</summary><div class="faq__a"><p>Yes. ShiftFlow supports single sign-on with Microsoft Entra ID or any OIDC provider, as well as authenticator app multi-factor authentication.</p></div></details>
+        <details class="faq__item"><summary>How much does ShiftFlow cost?</summary><div class="faq__a"><p>Pricing depends on the size of your team and the parts you use. <a href="#contact">Book a demo</a> and we will show you ShiftFlow and give you a quote.</p></div></details>
+      </div>
+    </div>
+  </section>
+  <!-- /faq -->
+
   <!-- Contact -->
   <section class="section" id="contact">
     <div class="wrap">
@@ -928,6 +954,7 @@
         <li><a href="../#about">About</a></li>
         <li><a href="../#industries">Industries</a></li>
         <li><a href="../#partners">Partners</a></li>
+        <li><a href="../insights/">Insights</a></li>
         <li><a href="../#contact">Contact us</a></li>
         <li><a href="../privacy/">Privacy notice</a></li>
         <li><button type="button" class="linkbtn" data-cookie-settings>Cookie settings</button></li>

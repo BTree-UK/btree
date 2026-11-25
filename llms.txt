@@ -1,0 +1,34 @@
+# BTree
+
+> BTree (BTree Technologies Limited) is a UK technology company based in Bradford. It builds software, helps businesses adopt AI, runs secure networks and cloud platforms (Microsoft 365, Azure and AWS), and makes ShiftFlow, a workforce platform for shift-based businesses.
+
+Company number 16621870, registered in England and Wales. Contact: info@btree.uk.
+
+## Services
+
+- [Software development](https://btree.uk/services/software-development/): Web and mobile apps, integrations and modernisation, built around how your business works.
+- [AI adoption](https://btree.uk/services/ai-adoption/): Find where AI really helps, roll out tools like Copilot securely, automate busywork and train your team.
+- [Networks, internet and firewalls](https://btree.uk/services/networks/): Business internet, Wi-Fi, firewalls and multi-site networks that stay up and stay secure.
+- [Cyber security](https://btree.uk/services/cyber-security/): Security reviews, Cyber Essentials readiness, MFA, device protection and backup.
+- [Microsoft 365 and Azure](https://btree.uk/services/microsoft-365-azure/): Microsoft 365 set-up and migration, Teams, SharePoint, Entra ID, Intune and Azure.
+- [AWS cloud](https://btree.uk/services/aws/): Migration, architecture, infrastructure as code, cost optimisation and security on AWS.
+
+## ShiftFlow
+
+- [ShiftFlow](https://btree.uk/shiftflow/): Rotas, time and attendance and HR for UK shift-based teams, in one flow. Rotas, clock-ins, timesheets, holiday, documents and HR, with UK working time rules checked before a rota is published.
+- [ShiftFlow for hospitality](https://btree.uk/shiftflow/hospitality/): ShiftFlow rotas, clock-ins and HR for UK restaurants, bars, cafes and hotels: shifts past midnight, live labour cost against sales, food hygiene certificates and open shifts across venues.
+- [ShiftFlow for retail](https://btree.uk/shiftflow/retail/): ShiftFlow rotas, clock-ins and HR for UK retailers: cover for opening hours, seasonal peaks, under-18 Saturday staff and teams that work across branches.
+- [ShiftFlow for care](https://btree.uk/shiftflow/care/): ShiftFlow rotas, clock-ins and HR for UK care providers: round-the-clock rotas, night shifts, Right to Work and visa hour checks, document expiry warnings and secure staff records.
+- [ShiftFlow for warehousing](https://btree.uk/shiftflow/warehousing-logistics/): ShiftFlow shift planning, clock-ins and timesheets for UK warehouses, distribution centres and logistics teams: rotating shifts, accurate clock-ins, offline kiosks and payroll-ready hours.
+- [ShiftFlow for manufacturing](https://btree.uk/shiftflow/manufacturing/): ShiftFlow shift rotas, time and attendance and HR for UK manufacturers: day and night shift patterns, overtime visibility, Working Time checks and planned against actual hours.
+- [ShiftFlow for facilities](https://btree.uk/shiftflow/facilities-cleaning-security/): ShiftFlow rotas, clock-ins and HR for UK facilities, cleaning and security companies: staff across client sites, hours actually worked, licence and document expiry warnings.
+
+## Insights
+
+- [UK working time rules for shift workers: a guide for managers](https://btree.uk/insights/uk-working-time-rules-shift-workers/): A plain-English guide to the Working Time Regulations for UK shift-based businesses: the 48-hour week, rest between shifts, breaks, night work, young workers and holiday.
+- [Cyber Essentials explained: a plain-English guide for UK small businesses](https://btree.uk/insights/cyber-essentials-explained/): What Cyber Essentials and Cyber Essentials Plus are, the five technical controls, who needs certification and how a small business can prepare to pass first time.
+- [Moving to Microsoft 365: a practical migration checklist](https://btree.uk/insights/microsoft-365-migration-checklist/): A step-by-step checklist for moving a small or medium-sized business to Microsoft 365 from Google Workspace, another email provider or on-premises Exchange, without losing email.
+
+## Optional
+
+- [Privacy notice](https://btree.uk/privacy/)
