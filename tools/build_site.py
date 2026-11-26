@@ -154,12 +154,13 @@ INDUSTRIES = [
 PARTNERS = [
     ("MyLahore", "mylahore.jpg", 640, 240, "light", "https://www.mylahore.co.uk/"),
     ("Wunder Crumble", "wunder-crumble.png", 200, 48, "dark", "https://www.wundercrumble.co.uk/"),
-    ("Janan", "janan.png", 152, 45, "dark", ""),
+    ("Janan", "janan.png", 152, 45, "dark", "https://janan.com/"),
+    ("Divchi", "divchi.png", 600, 197, "light", "https://www.divchi.co.uk/"),
 ]
 
 
 def partners_html(r):
-    """The partners section: logos glide past in an endless loop (static for reduced motion)."""
+    """The partners section: logos glide past in an endless loop (paused while hovered)."""
     def card(name, img, w, h, style, url, copy):
         logo = f'<img src="{r}assets/partners/{img}" alt="{"" if copy else name}" width="{w}" height="{h}" loading="lazy" />'
         if url:
@@ -616,6 +617,7 @@ for s in SERVICES:
 <main id="top">
 
   <section class="hero hero--page">
+    <span class="hero__glow" aria-hidden="true"></span>
     <div class="wrap">
       <div class="hero__copy">
         <nav class="crumbs" aria-label="Breadcrumb"><a href="{r}">Home</a> <span>/</span> <a href="{r}#services">Services</a> <span>/</span> {s["name"]}</nav>
@@ -704,6 +706,7 @@ pv = head(r, "Privacy notice | BTree", "How BTree collects, uses and protects pe
 pv += nav(r) + f'''
 <main id="top">
   <section class="hero hero--page">
+    <span class="hero__glow" aria-hidden="true"></span>
     <div class="wrap">
       <div class="hero__copy">
         <nav class="crumbs" aria-label="Breadcrumb"><a href="{r}">Home</a> <span>/</span> Privacy notice</nav>
@@ -1100,6 +1103,7 @@ for pg in SF_PAGES:
 <main id="top">
 
   <section class="hero hero--page">
+    <span class="hero__glow" aria-hidden="true"></span>
     <div class="wrap">
       <div class="hero__copy">
         <nav class="crumbs" aria-label="Breadcrumb"><a href="{r}">Home</a> <span>/</span> <a href="../">ShiftFlow</a> <span>/</span> {pg["short"]}</nav>
@@ -1185,6 +1189,7 @@ cards = "\n".join(f'''        <a class="svc reveal" href="{x["slug"]}/">
 page += f'''
 <main id="top">
   <section class="hero hero--page">
+    <span class="hero__glow" aria-hidden="true"></span>
     <div class="wrap">
       <div class="hero__copy">
         <nav class="crumbs" aria-label="Breadcrumb"><a href="{r}">Home</a> <span>/</span> Insights</nav>
@@ -1222,6 +1227,7 @@ for x in ARTICLES:
     page += f'''
 <main id="top">
   <section class="hero hero--page">
+    <span class="hero__glow" aria-hidden="true"></span>
     <div class="wrap">
       <div class="hero__copy">
         <nav class="crumbs" aria-label="Breadcrumb"><a href="{r}">Home</a> <span>/</span> <a href="../">Insights</a> <span>/</span> {x["topic"]}</nav>

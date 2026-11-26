@@ -396,10 +396,11 @@
   var calm = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   // Home hero: the last word of the headline glitches from one word to the next.
+  // It runs for every visitor, including those with reduced motion set (e.g. Windows "Animation effects" off).
   document.querySelectorAll('.rot[data-words]').forEach(function (rot) {
     var word = rot.querySelector('.rot__word');
     var words = rot.getAttribute('data-words').split('|');
-    if (calm || !word || words.length < 2) return;
+    if (!word || words.length < 2) return;
     // Reserve the width of the longest word, so the heading never rewraps as words change
     // (a moving layout counts against Core Web Vitals). A rotator on its own line needs no reserve.
     function reserve() {
@@ -426,30 +427,132 @@
     }, 2800);
   });
 
-  // Home hero: a soft spotlight follows the pointer.
-  document.querySelectorAll('.hero__glow').forEach(function (glow) {
-    var hero = glow.parentElement;
-    if (calm) return;
-    // At most one update per frame, however fast the mouse reports.
+  // Pointer-following effects. They run for every visitor with a mouse (touch screens have no
+  // pointer to follow), including those with reduced motion set, by the site owner's choice.
+  var finePointer = !!(window.matchMedia && window.matchMedia('(hover: hover) and (pointer: fine)').matches);
+  // Calls move(event) at most once per frame while the pointer is over `area`, and leave() when it goes.
+  function followPointer(area, move, leave) {
     var last = null, queued = false;
-    hero.addEventListener('pointermove', function (e) {
+    area.addEventListener('pointermove', function (e) {
+      if (e.pointerType && e.pointerType !== 'mouse' && e.pointerType !== 'pen') return;
       last = e;
       if (queued) return;
       queued = true;
-      requestAnimationFrame(function () {
-        queued = false;
-        var r = hero.getBoundingClientRect();
-        glow.style.setProperty('--mx', (last.clientX - r.left) + 'px');
-        glow.style.setProperty('--my', (last.clientY - r.top) + 'px');
-      });
+      requestAnimationFrame(function () { queued = false; if (last) move(last); });
     }, { passive: true });
+    if (leave) area.addEventListener('pointerleave', function (e) { last = null; leave(e); });
+  }
+  // -1..1 position of the pointer from an element's centre, with `slack` px of extra reach
+  // so a far-off pointer doesn't push it to the limit.
+  function fromCentre(e, el, slack) {
+    var r = el.getBoundingClientRect();
+    function clamp(v) { return Math.max(-1, Math.min(1, v)); }
+    return {
+      x: clamp((e.clientX - (r.left + r.width / 2)) / (r.width / 2 + slack)),
+      y: clamp((e.clientY - (r.top + r.height / 2)) / (r.height / 2 + slack))
+    };
+  }
+  function clearVars(el, names) { names.forEach(function (n) { el.style.removeProperty(n); }); }
+
+  // Hero headers: a soft spotlight follows the pointer.
+  document.querySelectorAll('.hero__glow').forEach(function (glow) {
+    var hero = glow.parentElement;
+    followPointer(hero, function (e) {
+      var r = hero.getBoundingClientRect();
+      glow.style.setProperty('--mx', (e.clientX - r.left) + 'px');
+      glow.style.setProperty('--my', (e.clientY - r.top) + 'px');
+    });
   });
+
+  if (finePointer) {
+    // Home hero: the terminal tilts towards the pointer, and settles back when it leaves.
+    document.querySelectorAll('.term--hero').forEach(function (term) {
+      var hero = term.closest('.hero');
+      if (!hero) return;
+      followPointer(hero, function (e) {
+        var p = fromCentre(e, term, 200);
+        term.style.setProperty('--ry', (p.x * 14).toFixed(2) + 'deg');
+        term.style.setProperty('--rx', (-p.y * 10).toFixed(2) + 'deg');
+      }, function () { clearVars(term, ['--rx', '--ry']); });
+    });
+
+    // ShiftFlow hero: the rota, check, phone and toast drift with the pointer by different
+    // amounts (nearer pieces further), which gives the composition a sense of depth.
+    var depth = { hero__rota: 10, hero__check: 22, hero__phone: 26, hero__toast: 34 };
+    document.querySelectorAll('.hero__stage--frags').forEach(function (stage) {
+      var hero = stage.closest('.hero');
+      var layers = [];
+      Array.prototype.forEach.call(stage.children, function (el) {
+        Object.keys(depth).forEach(function (k) { if (el.classList.contains(k)) layers.push({ el: el, d: depth[k] }); });
+      });
+      if (!hero || !layers.length) return;
+      followPointer(hero, function (e) {
+        var p = fromCentre(e, hero, 0);
+        layers.forEach(function (l) {
+          l.el.style.setProperty('--px', (p.x * l.d).toFixed(1) + 'px');
+          l.el.style.setProperty('--py', (p.y * l.d * 0.6).toFixed(1) + 'px');
+        });
+      }, function () { layers.forEach(function (l) { clearVars(l.el, ['--px', '--py']); }); });
+    });
+
+    // ShiftFlow phones row: each phone turns towards the pointer while it is over the row.
+    document.querySelectorAll('.phones').forEach(function (row) {
+      var phones = row.querySelectorAll('.phone');
+      followPointer(row, function (e) {
+        Array.prototype.forEach.call(phones, function (ph) {
+          var p = fromCentre(e, ph, 260);
+          ph.style.setProperty('--ry', (p.x * 12).toFixed(2) + 'deg');
+          ph.style.setProperty('--rx', (-p.y * 8).toFixed(2) + 'deg');
+        });
+      }, function () { Array.prototype.forEach.call(phones, function (ph) { clearVars(ph, ['--rx', '--ry']); }); });
+    });
+
+    // Cards: a small tilt towards the pointer, and a soft light where it rests (see site.css).
+    // Tilting pulls the card's edge in by a few px, so a pointer right at the edge can find itself
+    // "outside" without moving. The flat (rest) box is kept from when the pointer came in, and the
+    // tilt is only dropped once the pointer is really outside that box, so the edge never flickers.
+    function inBox(e, b) { return e.clientX >= b.left && e.clientX <= b.right && e.clientY >= b.top && e.clientY <= b.bottom; }
+    document.querySelectorAll('.svc, .product--live, .ind2, .app-card').forEach(function (card) {
+      var rest = null;
+      function reset() {
+        document.removeEventListener('pointermove', watch);
+        window.removeEventListener('scroll', reset);
+        rest = null;
+        card.classList.remove('is-tilt');
+        clearVars(card, ['--rx', '--ry', '--gx', '--gy']);
+      }
+      function watch(e) { if (!rest || !inBox(e, rest)) reset(); }
+      card.addEventListener('pointerenter', function () {
+        document.removeEventListener('pointermove', watch);
+        window.removeEventListener('scroll', reset);
+        if (!rest) rest = card.getBoundingClientRect();
+      });
+      followPointer(card, function (e) {
+        var r = card.getBoundingClientRect();
+        var p = fromCentre(e, card, 0);
+        card.classList.add('is-tilt'); // holds the tilt (and lift) even if the edge slips from under the pointer
+        card.style.setProperty('--ry', (p.x * 5).toFixed(2) + 'deg');
+        card.style.setProperty('--rx', (-p.y * 5).toFixed(2) + 'deg');
+        card.style.setProperty('--gx', (e.clientX - r.left).toFixed(0) + 'px');
+        card.style.setProperty('--gy', (e.clientY - r.top).toFixed(0) + 'px');
+      }, function (e) {
+        // Still inside the flat box: the tilt moved the edge, not the pointer. Wait for a real exit.
+        if (rest && e && inBox(e, rest)) {
+          document.addEventListener('pointermove', watch, { passive: true });
+          window.addEventListener('scroll', reset, { passive: true });
+          return;
+        }
+        reset();
+      });
+    });
+  }
 
   // Partner logos: the page holds one set (so search engines see each link once).
   // Copies are added here, just enough to fill two widths of the screen for a seamless loop.
+  // It runs for every visitor, including those with reduced motion set; hovering pauses it.
   document.querySelectorAll('.marquee').forEach(function (m) {
     var track = m.querySelector('.marquee__track');
-    if (calm || !track || !track.children.length) return;
+    if (!track || !track.children.length) return;
     var originals = Array.prototype.slice.call(track.children);
     m.classList.add('is-moving');
     var setWidth = track.scrollWidth;
